@@ -1,0 +1,217 @@
+<div class="admin-return-policy">
+  <div class="container-fluid">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4 mt-4">
+      <h2 class="mb-0">
+        <i class="fas fa-undo me-2"></i>
+        Manage Return Policy Content
+      </h2>
+      <button class="btn btn-primary" (click)="showAddFormToggle()" [disabled]="loading">
+        <i class="fas fa-plus me-2"></i>
+        Add New Item
+      </button>
+    </div>
+
+    <!-- Add New Item Form -->
+    <div *ngIf="showAddForm" class="card mb-4">
+      <div class="card-header">
+        <h5 class="mb-0">Add New Return Policy Item</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12">
+            <div class="mb-3">
+              <label for="newParagraph1" class="form-label">Paragraph 1</label>
+              <div class="bold-button-container">
+                <div class="btn-group" role="group">
+                  <button type="button" class="btn btn-sm btn-outline-secondary" (click)="insertBold('newParagraph1')">
+                    <i class="fas fa-bold"></i> Bold
+                  </button>
+                </div>
+              </div>
+              <textarea 
+                id="newParagraph1" 
+                class="form-control"
+                dir="auto" 
+                rows="3" 
+                [(ngModel)]="newItem.paragraph1"
+                placeholder="Enter first paragraph... Use <strong>text</strong> for bold text.">
+              </textarea>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="mb-3">
+              <label for="newParagraph2" class="form-label">Paragraph 2</label>
+              <div class="bold-button-container">
+                <div class="btn-group" role="group">
+                  <button type="button" class="btn btn-sm btn-outline-secondary" (click)="insertBold('newParagraph2')">
+                    <i class="fas fa-bold"></i> Bold
+                  </button>
+                </div>
+              </div>
+              <textarea 
+                id="newParagraph2" 
+                class="form-control"
+                dir="auto" 
+                rows="3" 
+                [(ngModel)]="newItem.paragraph2"
+                placeholder="Enter second paragraph... Use <strong>text</strong> for bold text.">
+              </textarea>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="mb-3">
+              <label for="newParagraph3" class="form-label">Paragraph 3</label>
+              <div class="bold-button-container">
+                <div class="btn-group" role="group">
+                  <button type="button" class="btn btn-sm btn-outline-secondary" (click)="insertBold('newParagraph3')">
+                    <i class="fas fa-bold"></i> Bold
+                  </button>
+                </div>
+              </div>
+              <textarea 
+                id="newParagraph3" 
+                class="form-control"
+                dir="auto" 
+                rows="3" 
+                [(ngModel)]="newItem.paragraph3"
+                placeholder="Enter third paragraph... Use <strong>text</strong> for bold text.">
+              </textarea>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex gap-2">
+          <button class="btn btn-success" (click)="addNewItem()" [disabled]="loading">
+            <i class="fas fa-save me-2"></i>
+            Save
+          </button>
+          <button class="btn btn-secondary" (click)="showAddFormToggle()" [disabled]="loading">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Return Policy Items List -->
+    <div class="row">
+      <div class="col-12">
+        <div *ngIf="loading" class="text-center py-4">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          <p class="mt-2">Loading return policy items...</p>
+        </div>
+
+        <div *ngIf="!loading && returnPolicyItems.length === 0" class="text-center py-4">
+          <i class="fas fa-undo fa-3x text-muted mb-3"></i>
+          <h4 class="text-muted">No Return Policy Items Found</h4>
+          <p class="text-muted">Click "Add New Item" to create your first return policy content.</p>
+        </div>
+
+        <div *ngFor="let item of returnPolicyItems" class="card mb-3">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h6 class="mb-0">Return Policy Item #{{ item.id }}</h6>
+            <div class="btn-group" role="group">
+              <button 
+                class="btn btn-sm btn-outline-primary" 
+                (click)="startEdit(item)"
+                [disabled]="loading">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button 
+                class="btn btn-sm btn-outline-danger" 
+                (click)="deleteItem(item.id!)"
+                [disabled]="loading">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </div>
+          
+          <!-- Edit Form -->
+          <div *ngIf="editingItem && editingItem.id === item.id" class="card-body">
+            <div class="row">
+              <div class="col-12">
+                <div class="mb-3">
+                  <label class="form-label">Paragraph 1</label>
+                  <div class="btn-group mb-2" role="group">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" (click)="insertBold('editParagraph1')">
+                      <i class="fas fa-bold"></i> Bold
+                    </button>
+                  </div>
+                  <textarea 
+                    id="editParagraph1"
+                    class="form-control"
+                    dir="auto" 
+                    rows="3" 
+                    [(ngModel)]="editingItem.paragraph1">
+                  </textarea>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="mb-3">
+                  <label class="form-label">Paragraph 2</label>
+                  <div class="btn-group mb-2" role="group">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" (click)="insertBold('editParagraph2')">
+                      <i class="fas fa-bold"></i> Bold
+                    </button>
+                  </div>
+                  <textarea 
+                    id="editParagraph2"
+                    class="form-control"
+                    dir="auto" 
+                    rows="3" 
+                    [(ngModel)]="editingItem.paragraph2">
+                  </textarea>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="mb-3">
+                  <label class="form-label">Paragraph 3</label>
+                  <div class="btn-group mb-2" role="group">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" (click)="insertBold('editParagraph3')">
+                      <i class="fas fa-bold"></i> Bold
+                    </button>
+                  </div>
+                  <textarea 
+                    id="editParagraph3"
+                    class="form-control"
+                    dir="auto" 
+                    rows="3" 
+                    [(ngModel)]="editingItem.paragraph3">
+                  </textarea>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex gap-2">
+              <button class="btn btn-success btn-sm" (click)="saveEdit()" [disabled]="loading">
+                <i class="fas fa-save me-2"></i>
+                Save Changes
+              </button>
+              <button class="btn btn-secondary btn-sm" (click)="cancelEdit()" [disabled]="loading">
+                Cancel
+              </button>
+            </div>
+          </div>
+          
+          <!-- Display Content -->
+          <div *ngIf="!editingItem || editingItem.id !== item.id" class="card-body">
+            <div class="row">
+              <div class="col-12">
+                <h6 class="text-muted">Paragraph 1:</h6>
+                <p class="mb-3">{{ item.paragraph1 }}</p>
+              </div>
+              <div class="col-12">
+                <h6 class="text-muted">Paragraph 2:</h6>
+                <p class="mb-3">{{ item.paragraph2 }}</p>
+              </div>
+              <div class="col-12">
+                <h6 class="text-muted">Paragraph 3:</h6>
+                <p class="mb-3">{{ item.paragraph3 }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

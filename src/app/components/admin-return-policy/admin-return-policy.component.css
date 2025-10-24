@@ -1,0 +1,88 @@
+/* Auto text direction for textareas */
+.auto-direction {
+  direction: auto;
+  unicode-bidi: bidi-override;
+}
+
+/* Bold text styling */
+strong {
+  font-weight: bold !important;
+  color: #333 !important;
+  font-family: 'Arial', 'Tahoma', sans-serif !important;
+}
+
+/* Improved UI styling */
+.form-control {
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.btn-group .btn {
+  border-radius: 6px;
+  font-size: 12px;
+  padding: 6px 12px;
+  margin-left: 10px;
+}
+
+.btn-group .btn:hover {
+  background-color: #6c757d;
+  color: white;
+}
+
+.card {
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+}
+
+.card-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 12px 12px 0 0 !important;
+  padding: 15px 20px;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 8px;
+}
+
+/* Edit and Delete button styling */
+.btn-outline-primary {
+  color: #0d6efd;
+  border-color: #0d6efd;
+  background-color: transparent;
+}
+
+.btn-outline-primary:hover {
+  color: white;
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+.btn-outline-danger {
+  color: #dc3545;
+  border-color: #dc3545;
+  background-color: transparent;
+}
+
+.btn-outline-danger:hover {
+  color: white;
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+/* Bold button spacing */
+.bold-button-container {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}

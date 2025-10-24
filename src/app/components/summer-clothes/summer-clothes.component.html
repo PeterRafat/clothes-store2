@@ -1,0 +1,77 @@
+<div class="container" dir="rtl">
+  <div class="row">
+    <div class="col-12">
+      <h1 class="text-center page-title">SUMMER CLOTHES</h1>
+
+      <!-- Filter Section - buttons grid -->
+      <div class="filters">
+        <button
+          class="filter-chip"
+          [class.active]="selectedSubcategory === 'all'"
+          (click)="selectedSubcategory='all'; onSubcategoryChange()">
+          جميع الأنواع
+        </button>
+
+        <button
+          *ngFor="let subcategory of subcategories"
+          class="filter-chip"
+          [class.active]="selectedSubcategory === toString(subcategory.id)"
+          (click)="selectedSubcategory=toString(subcategory.id); onSubcategoryChange()">
+          {{ subcategory.name }}
+        </button>
+      </div>
+
+      <!-- Loading -->
+      <div *ngIf="loading" class="text-center">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">جاري التحميل...</span>
+        </div>
+      </div>
+
+      <!-- Products Horizontal Scroll -->
+      <div *ngIf="!loading">
+        <div *ngIf="filteredProducts.length === 0" class="alert alert-info text-center">
+          لا توجد منتجات متاحة حالياً
+        </div>
+        
+        <div *ngIf="filteredProducts.length > 0" class="products-carousel-wrapper">
+          <button 
+            type="button"
+            class="scroll-arrows scroll-left" 
+            (click)="scrollLeft()"
+            title="Scroll Left">
+            ‹
+          </button>
+          <button 
+            type="button"
+            class="scroll-arrows scroll-right" 
+            (click)="scrollRight()"
+            title="Scroll Right">
+            ›
+          </button>
+          <div class="products-horizontal-scroll" #scrollContainer>
+            <div class="products-container">
+              <div class="product-item" *ngFor="let product of filteredProducts">
+                <div class="product-card">
+                  <div class="image-wrap">
+                    <img [src]="product.image_url || 'https://via.placeholder.com/401x288?text=No+Image'" width="401" height="288" alt="{{product.name}}">
+                  </div>
+                  <div class="product-meta">
+                    <div class="left">
+                      <div class="small-title">{{ getSubcategoryName(product.subcategory_id) }}</div>
+                      <div class="product-name">{{ product.name || 'Product Name' }}</div>
+                    </div>
+                    <div class="right-price">{{ product.price || 0 }} EGP</div>
+                  </div>
+                  <div class="text-center">
+                    <a [routerLink]="['/product', product.id]" class="btn btn-outline-primary mt-2">View Details</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

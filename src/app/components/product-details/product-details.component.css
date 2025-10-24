@@ -1,0 +1,250 @@
+/* Product Details Container */
+.product-details-container {
+  padding: 2rem 0;
+  min-height: 70vh;
+}
+
+/* Product Image */
+.product-image-wrapper {
+  position: relative;
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.product-image-wrapper:hover {
+  transform: translateY(-5px);
+}
+
+.product-image {
+  max-height: 500px;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+.product-image:hover {
+  transform: scale(1.02);
+}
+
+/* Product Information */
+.product-info {
+  padding: 1rem 0;
+}
+
+.product-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.price-section {
+  margin-bottom: 2rem;
+}
+
+.price {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #27ae60;
+  background: linear-gradient(135deg, #27ae60, #2ecc71);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Unified Product Table */
+.product-table-container {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border: 1px solid #e9ecef;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.product-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+}
+
+.product-table tr {
+  border-bottom: 1px solid #e9ecef;
+  transition: background-color 0.3s ease;
+}
+
+.product-table tr:last-child {
+  border-bottom: none;
+}
+
+.product-table tr:hover {
+  background-color: rgba(0, 123, 255, 0.05);
+}
+
+.table-label {
+  font-weight: 600;
+  color: #495057;
+  padding: 1rem 0.5rem 1rem 0;
+  width: 30%;
+  vertical-align: top;
+  font-size: 1rem;
+}
+
+.table-value {
+  color: #2c3e50;
+  font-weight: 500;
+  padding: 1rem 0.5rem;
+  vertical-align: top;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.details-text {
+  line-height: 1.8;
+  font-size: 1.1rem;
+  color: #495057;
+  white-space: pre-line;
+}
+
+.low-stock {
+  color: #e74c3c !important;
+  font-weight: 600;
+}
+
+/* Sizes Container */
+.sizes-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.size-badge {
+  background: #007bff;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  min-width: 40px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.size-badge:hover {
+  background: #0056b3;
+  transform: translateY(-2px);
+}
+
+/* WhatsApp Order Button */
+.order-section {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.whatsapp-btn {
+  background: linear-gradient(135deg, #25d366, #128c7e);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.whatsapp-btn:hover {
+  background: linear-gradient(135deg, #128c7e, #25d366);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+}
+
+.whatsapp-btn:active {
+  transform: translateY(-1px);
+}
+
+.whatsapp-btn i {
+  font-size: 1.5rem;
+}
+
+/* Loading State */
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+  color: #007bff;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .product-title {
+    font-size: 2rem;
+  }
+  
+  .price {
+    font-size: 1.5rem;
+  }
+  
+  .product-table {
+    display: block;
+  }
+  
+  .product-table tr {
+    display: block;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .table-label {
+    display: block;
+    width: 100%;
+    font-weight: 700;
+    color: #007bff;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .table-value {
+    display: block;
+    width: 100%;
+    padding: 0;
+    font-size: 1rem;
+  }
+  
+  .sizes-container {
+    justify-content: flex-start;
+  }
+  
+  .whatsapp-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* RTL Support */
+[dir="rtl"] .table-label {
+  text-align: right;
+  padding: 1rem 0 1rem 0.5rem;
+}
+
+[dir="rtl"] .table-value {
+  text-align: right;
+  padding: 1rem 0.5rem 1rem 0;
+}
+
+[dir="rtl"] .sizes-container {
+  justify-content: flex-end;
+}

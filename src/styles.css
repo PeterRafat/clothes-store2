@@ -1,1 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
+body { background: #f8f9fa; font-family: 'Arial', sans-serif; }
+.container { max-width: 1100px; }
+.card { border-radius: 8px; }
+
+/* Global Bold text styling */
+strong {
+  font-weight: bold !important;
+  color: #333 !important;
+  font-family: 'Arial', 'Tahoma', sans-serif !important;
+}

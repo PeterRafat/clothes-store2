@@ -1,0 +1,42 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/"> <img src="/logo.jpg" alt="EY store" width="60"></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#userNav" aria-controls="userNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="userNav">
+      <ul class="navbar-nav ms-auto align-items-center">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            الرئيسية
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/summer-clothes" routerLinkActive="active">
+            ملابس صيفية
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/winter-clothes" routerLinkActive="active">
+            ملابس شتوية
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/about-us" routerLinkActive="active">
+            من نحن
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/payment-policy" routerLinkActive="active">
+            سياسة الدفع
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/return-policy" routerLinkActive="active">
+            سياسة الاستبدال والاسترجاع
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

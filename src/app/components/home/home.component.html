@@ -1,0 +1,57 @@
+<div class="container" dir="rtl">
+  <div class="row">
+    <div class="col-12">
+      <!-- Loading -->
+      <div *ngIf="loading" class="text-center py-5">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">جاري التحميل...</span>
+        </div>
+      </div>
+
+      <!-- Products by Subcategory -->
+      <div *ngIf="!loading">
+        <div *ngFor="let subcategoryName of getSubcategoryKeys()" class="subcategory-section">
+          <h2 class="subcategory-title">{{ subcategoryName }}</h2>
+          
+          <div class="products-carousel-wrapper">
+            <button 
+              type="button"
+              class="scroll-arrows scroll-left" 
+              (click)="scrollLeft(subcategoryName)"
+              title="Scroll Left">
+              ‹
+            </button>
+            <button 
+              type="button"
+              class="scroll-arrows scroll-right" 
+              (click)="scrollRight(subcategoryName)"
+              title="Scroll Right">
+              ›
+            </button>
+            <div class="products-horizontal-scroll" [id]="'scroll-' + subcategoryName">
+              <div class="products-container">
+                <div class="product-item" *ngFor="let product of productsBySubcategory[subcategoryName]">
+                  <div class="product-card">
+                    <div class="image-wrap">
+                      <img [src]="product.image_url || 'https://via.placeholder.com/401x288?text=No+Image'" width="401" height="288" alt="{{product.name}}">
+                    </div>
+                    <div class="product-meta">
+                      <div class="left">
+                        <div class="small-title">{{ subcategoryName }}</div>
+                        <div class="product-name">{{ product.name || 'Product Name' }}</div>
+                      </div>
+                      <div class="right-price">{{ product.price || 0 }} EGP</div>
+                    </div>
+                    <div class="text-center">
+                      <a [routerLink]="['/product', product.id]" class="btn btn-outline-primary mt-2">View Details</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

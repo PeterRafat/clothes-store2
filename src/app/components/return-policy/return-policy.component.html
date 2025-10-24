@@ -1,0 +1,88 @@
+<div class="container" dir="rtl">
+  <div class="row">
+    <div class="col-12">
+      <h1 class="text-center mb-4">سياسة الاستبدال والاسترجاع</h1>
+      
+      <!-- Loading State -->
+      <div *ngIf="loading" class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">جاري التحميل...</span>
+        </div>
+        <p class="mt-3">جاري تحميل المحتوى...</p>
+      </div>
+
+      <!-- Content from Database -->
+      <div *ngIf="!loading && returnPolicyItems.length > 0">
+        <div *ngFor="let item of returnPolicyItems" class="card mb-4">
+          <div class="card-body">
+            <!-- Display paragraphs vertically -->
+            <div class="mb-4" *ngIf="item.paragraph1">
+              <div [innerHTML]="item.paragraph1"></div>
+            </div>
+            <div class="mb-4" *ngIf="item.paragraph2">
+              <div [innerHTML]="item.paragraph2"></div>
+            </div>
+            <div class="mb-4" *ngIf="item.paragraph3">
+              <div [innerHTML]="item.paragraph3"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fallback Content if no data -->
+      <div *ngIf="!loading && returnPolicyItems.length === 0" class="card">
+        <div class="card-body">
+          <h3>شروط الاستبدال والاسترجاع</h3>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <strong>فترة الاستبدال:</strong> يمكن استبدال أو إرجاع المنتج خلال 14 يوم من تاريخ الشراء
+            </li>
+            <li class="list-group-item">
+              <strong>حالة المنتج:</strong> يجب أن يكون المنتج في نفس الحالة التي تم تسليمه بها
+            </li>
+            <li class="list-group-item">
+              <strong>الملصقات:</strong> يجب الاحتفاظ بجميع الملصقات والعلامات التجارية
+            </li>
+            <li class="list-group-item">
+              <strong>الفاتورة:</strong> يجب تقديم الفاتورة الأصلية أو إثبات الشراء
+            </li>
+          </ul>
+
+          <h3 class="mt-4">المنتجات غير القابلة للاستبدال</h3>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              المنتجات الشخصية (مثل الملابس الداخلية)
+            </li>
+            <li class="list-group-item">
+              المنتجات المخصصة أو المطبوعة حسب الطلب
+            </li>
+            <li class="list-group-item">
+              المنتجات التي تم استخدامها أو تلفت
+            </li>
+          </ul>
+
+          <h3 class="mt-4">إجراءات الاستبدال</h3>
+          <ol class="list-group list-group-flush">
+            <li class="list-group-item">
+              تواصل معنا عبر الهاتف أو البريد الإلكتروني
+            </li>
+            <li class="list-group-item">
+              قدم إثبات الشراء والمنتج المراد استبداله
+            </li>
+            <li class="list-group-item">
+              سنقوم بمراجعة الطلب خلال 2-3 أيام عمل
+            </li>
+            <li class="list-group-item">
+              في حالة الموافقة، سنقوم بترتيب عملية الاستبدال
+            </li>
+          </ol>
+
+          <h3 class="mt-4">استرداد الأموال</h3>
+          <p>
+            في حالة الموافقة على الاسترجاع، سيتم استرداد المبلغ خلال 5-7 أيام عمل بنفس طريقة الدفع الأصلية.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

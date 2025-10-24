@@ -1,0 +1,488 @@
+<!-- Navigation Breadcrumb -->
+<nav class="breadcrumb-nav mb-3">
+  <div class="container-fluid">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a routerLink="/admin/dashboard" class="text-decoration-none">
+          <i class="fas fa-tachometer-alt me-1"></i>
+          Dashboard
+        </a>
+      </li>
+      <li class="breadcrumb-item active">
+        <i class="fas fa-box me-1"></i>
+        Products
+      </li>
+    </ol>
+  </div>
+</nav>
+
+<!-- Header Section -->
+<div class="page-header mb-4">
+  <div class="d-flex align-items-center justify-content-between">
+    <div>
+      <h2 class="page-title mb-1">
+        <i class="fas fa-box me-2 text-primary"></i>
+        Product Management
+      </h2>
+      <p class="text-muted mb-0">Add and manage your store products</p>
+    </div>
+    <div class="d-flex align-items-center gap-3">
+      <div class="header-stats">
+        <span class="badge bg-primary fs-6">{{products.length}} Products</span>
+      </div>
+      <div class="admin-info">
+        <span class="text-white me-2">
+          <i class="fas fa-user me-1"></i>
+          {{getCurrentAdmin()?.name || getCurrentAdmin()?.username}}
+        </span>
+        <button class="btn btn-outline-light btn-sm" (click)="logout()">
+          <i class="fas fa-sign-out-alt me-1"></i>
+          Logout
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add Product Form -->
+<div class="add-product-section mb-5">
+  <div class="card shadow-sm border-0">
+    <div class="card-header bg-gradient-primary text-white">
+      <div class="d-flex align-items-center">
+        <i class="fas fa-plus-circle me-2"></i>
+        <h5 class="mb-0">Add New Product</h5>
+      </div>
+    </div>
+    <div class="card-body p-4">
+      <form (ngSubmit)="addProduct()">
+        <div class="row g-3">
+          <!-- Product Name -->
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">
+              <i class="fas fa-tag me-1 text-muted"></i>
+              Product Name *
+            </label>
+            <input 
+              class="form-control form-control-lg" 
+              placeholder="Enter product name" 
+              [(ngModel)]="productModel.name" 
+              name="n"
+              required
+            />
+          </div>
+
+          <!-- Price -->
+          <div class="col-md-3">
+            <label class="form-label fw-semibold">
+              <i class="fas fa-dollar-sign me-1 text-muted"></i>
+              Price *
+            </label>
+            <div class="input-group">
+              <span class="input-group-text">EGP</span>
+              <input 
+                type="number" 
+                class="form-control form-control-lg" 
+                placeholder="0.00" 
+                [(ngModel)]="productModel.price" 
+                name="p"
+                step="0.01"
+                min="0"
+                required
+              />
+            </div>
+          </div>
+
+          <!-- Category -->
+          <div class="col-md-3">
+            <label class="form-label fw-semibold">
+              <i class="fas fa-folder me-1 text-muted"></i>
+              Category *
+            </label>
+            <select 
+              class="form-select form-select-lg" 
+              [(ngModel)]="productModel.category_id" 
+              (ngModelChange)="onCategoryChangeForNew($event)" 
+              name="c"
+              required
+            >
+              <option [ngValue]="null">Select Category</option>
+        <option *ngFor="let c of categories" [value]="c.id">{{c.name}}</option>
+      </select>
+    </div>
+
+          <!-- Subcategory -->
+    <div class="col-md-4" *ngIf="subsForCategory(productModel.category_id).length">
+            <label class="form-label fw-semibold">
+              <i class="fas fa-folder-open me-1 text-muted"></i>
+              Subcategory 
+              <span class="badge bg-info ms-1">{{subsForCategory(productModel.category_id).length}} available</span>
+            </label>
+            <select class="form-select form-select-lg" [(ngModel)]="productModel.subcategory_id" name="sc">
+              <option [ngValue]="null">Select Subcategory</option>
+        <option *ngFor="let s of subsForCategory(productModel.category_id)" [value]="s.id">{{s.name}}</option>
+      </select>
+    </div>
+
+          <!-- Image Upload -->
+          <div class="col-md-4">
+            <label class="form-label fw-semibold">
+              <i class="fas fa-image me-1 text-muted"></i>
+              Product Image
+            </label>
+            <div class="image-upload-container" [class.uploading]="uploadingImage">
+              <input 
+                type="file" 
+                class="form-control form-control-lg" 
+                (change)="onImageSelected($event)"
+                accept="image/*"
+                #fileInput
+                id="imageUpload"
+                [disabled]="uploadingImage"
+              />
+              <div class="image-preview" *ngIf="productModel.image_url && !uploadingImage">
+                <img [src]="productModel.image_url" alt="Preview" class="preview-image">
+                <button type="button" class="btn btn-sm btn-danger remove-image" (click)="removeImage()">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+              <div class="upload-hint" *ngIf="!productModel.image_url || uploadingImage">
+                <i class="fas fa-cloud-upload-alt" *ngIf="!uploadingImage"></i>
+                <i class="fas fa-spinner fa-spin" *ngIf="uploadingImage"></i>
+                <span *ngIf="!uploadingImage">Click to upload image or drag & drop</span>
+                <span *ngIf="uploadingImage">Processing image...</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Color -->
+          <div class="col-md-4">
+            <label class="form-label fw-semibold">
+              <i class="fas fa-palette me-1 text-muted"></i>
+              Color
+            </label>
+            <input 
+              class="form-control form-control-lg" 
+              placeholder="e.g., Red, Blue, Black" 
+              [(ngModel)]="productModel.color" 
+              name="col"
+            />
+          </div>
+
+          <!-- Quantity -->
+          <div class="col-md-4">
+            <label class="form-label fw-semibold">
+              <i class="fas fa-boxes me-1 text-muted"></i>
+              Quantity *
+            </label>
+            <input 
+              type="number" 
+              class="form-control form-control-lg" 
+              placeholder="0" 
+              [(ngModel)]="productModel.quantity" 
+              name="q"
+              min="0"
+              required
+            />
+          </div>
+
+          <!-- Sizes -->
+          <div class="col-md-8">
+            <label class="form-label fw-semibold">
+              <i class="fas fa-ruler me-1 text-muted"></i>
+              Available Sizes
+            </label>
+            <input 
+              class="form-control form-control-lg" 
+              placeholder="S, M, L, XL (comma separated)" 
+              [(ngModel)]="productModel.sizes" 
+              name="sz"
+            />
+            <div class="form-text">Separate sizes with commas (e.g., S, M, L, XL)</div>
+          </div>
+
+          <!-- Details -->
+          <div class="col-12">
+            <label class="form-label fw-semibold">
+              <i class="fas fa-align-left me-1 text-muted"></i>
+              Product Details
+            </label>
+            <textarea 
+              class="form-control" 
+              placeholder="Describe your product features, materials, care instructions..." 
+              [(ngModel)]="productModel.details" 
+              name="d"
+              rows="4"
+            ></textarea>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="col-12">
+            <div class="d-flex justify-content-end gap-2">
+              <button 
+                type="button" 
+                class="btn btn-outline-secondary btn-lg px-4"
+                (click)="resetForm()"
+              >
+                <i class="fas fa-undo me-2"></i>
+                Reset
+              </button>
+              <button 
+                type="submit" 
+                class="btn btn-primary btn-lg px-4"
+                [disabled]="!productModel.category_id || (subsForCategory(productModel.category_id).length && !productModel.subcategory_id)"
+              >
+                <i class="fas fa-plus me-2"></i>
+                Add Product
+              </button>
+            </div>
+    </div>
+  </div>
+</form>
+    </div>
+  </div>
+</div>
+
+<!-- Products List Section -->
+<div class="products-section">
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <div>
+      <h3 class="section-title mb-1">
+        <i class="fas fa-list me-2 text-primary"></i>
+        Products Inventory
+      </h3>
+      <p class="text-muted mb-0">Manage your product catalog</p>
+    </div>
+    <div class="d-flex gap-2">
+      <button class="btn btn-outline-primary" (click)="loadProducts()">
+        <i class="fas fa-sync-alt me-1"></i>
+        Refresh
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-3 text-muted">Loading products...</p>
+  </div>
+
+  <!-- Products Table -->
+  <div *ngIf="!loading" class="card shadow-sm border-0">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead class="table-light">
+            <tr>
+              <th class="border-0">
+                <i class="fas fa-tag me-1 text-muted"></i>
+                Product
+              </th>
+              <th class="border-0">
+                <i class="fas fa-dollar-sign me-1 text-muted"></i>
+                Price
+              </th>
+              <th class="border-0">
+                <i class="fas fa-folder me-1 text-muted"></i>
+                Category
+              </th>
+              <th class="border-0">
+                <i class="fas fa-boxes me-1 text-muted"></i>
+                Stock
+              </th>
+              <th class="border-0">
+                <i class="fas fa-ruler me-1 text-muted"></i>
+                Sizes
+              </th>
+              <th class="border-0 text-center">
+                <i class="fas fa-cogs me-1 text-muted"></i>
+                Actions
+              </th>
+            </tr>
+          </thead>
+  <tbody>
+            <tr *ngFor="let p of products; let i = index" class="product-row">
+              <!-- Product Name -->
+              <td class="align-middle">
+                <div *ngIf="editId !== p.id" class="d-flex align-items-center">
+                  <div class="product-image me-3">
+                    <img 
+                      *ngIf="p.image_url" 
+                      [src]="p.image_url" 
+                      [alt]="p.name"
+                      class="rounded"
+                      style="width: 40px; height: 40px; object-fit: cover;"
+                      onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0xNiAxNkgxNlYyNEgyNFYxNkgxNloiIGZpbGw9IiM5Q0EzQUYiLz4KPC9zdmc+Cg=='"
+                    />
+                    <div 
+                      *ngIf="!p.image_url" 
+                      class="bg-light rounded d-flex align-items-center justify-content-center"
+                      style="width: 40px; height: 40px;"
+                    >
+                      <i class="fas fa-image text-muted"></i>
+                    </div>
+                  </div>
+                  <div>
+                    <a [routerLink]="['/product', p.id]" class="product-name text-decoration-none fw-semibold">
+                      {{p.name}}
+                    </a>
+                    <div *ngIf="p.color" class="text-muted small">
+                      <i class="fas fa-palette me-1"></i>{{p.color}}
+                    </div>
+                  </div>
+                </div>
+                <input 
+                  *ngIf="editId === p.id" 
+                  class="form-control" 
+                  [(ngModel)]="editModel.name"
+                  placeholder="Product name"
+                  (keydown)="onKeyDown($event, p.id)"
+                />
+              </td>
+
+              <!-- Price -->
+              <td class="align-middle">
+                <div *ngIf="editId !== p.id" class="price-display">
+                  <span class="fw-bold text-success">{{p.price | number:'1.2-2'}} EGP</span>
+                </div>
+                <input 
+                  *ngIf="editId === p.id" 
+                  type="number" 
+                  class="form-control" 
+                  [(ngModel)]="editModel.price"
+                  step="0.01"
+                  min="0"
+                />
+              </td>
+
+              <!-- Category -->
+              <td class="align-middle">
+                <div *ngIf="editId !== p.id">
+                  <span class="badge bg-primary">{{p.categories?.name}}</span>
+                </div>
+                <div *ngIf="editId === p.id">
+                  <select class="form-select form-select-sm" [(ngModel)]="editModel.category_id" (ngModelChange)="onCategoryChangeForEdit()">
+                    <option [ngValue]="null">Select Category</option>
+          <option *ngFor="let c of categories" [value]="c.id">{{c.name}}</option>
+        </select>
+                  <select 
+                    *ngIf="subsForCategory(editModel.category_id).length" 
+                    class="form-select form-select-sm mt-1" 
+                    [(ngModel)]="editModel.subcategory_id"
+                  >
+                    <option [ngValue]="null">Select Subcategory</option>
+          <option *ngFor="let s of subsForCategory(editModel.category_id)" [value]="s.id">{{s.name}}</option>
+        </select>
+                  <span *ngIf="!subsForCategory(editModel.category_id).length" class="text-muted small">No subcategories</span>
+                </div>
+      </td>
+
+              <!-- Stock -->
+              <td class="align-middle">
+                <div *ngIf="editId !== p.id">
+                  <span class="badge" [ngClass]="p.quantity > 10 ? 'bg-success' : p.quantity > 0 ? 'bg-warning' : 'bg-danger'">
+                    {{p.quantity}} {{p.quantity === 1 ? 'item' : 'items'}}
+                  </span>
+                </div>
+                <input 
+                  *ngIf="editId === p.id" 
+                  type="number" 
+                  class="form-control" 
+                  [(ngModel)]="editModel.quantity"
+                  min="0"
+                />
+              </td>
+
+              <!-- Sizes -->
+              <td class="align-middle">
+                <div *ngIf="editId !== p.id">
+                  <span *ngIf="p.sizes?.length" class="text-muted small">
+                    {{p.sizes?.join(', ')}}
+                  </span>
+                  <span *ngIf="!p.sizes?.length" class="text-muted">-</span>
+                </div>
+                <input 
+                  *ngIf="editId === p.id" 
+                  class="form-control" 
+                  [(ngModel)]="editModel.sizes"
+                  placeholder="S, M, L"
+                />
+              </td>
+
+              <!-- Actions -->
+              <td class="align-middle text-center">
+                <div *ngIf="editId !== p.id" class="btn-group" role="group">
+                  <button 
+                    class="btn btn-sm btn-outline-primary" 
+                    (click)="editProduct(p)"
+                    title="Edit Product"
+                    [disabled]="isOperationInProgress(p.id)"
+                  >
+                    <i class="fas fa-edit me-1"></i>
+                    Update
+                  </button>
+                  <button 
+                    class="btn btn-sm btn-outline-danger" 
+                    (click)="deleteProduct(p.id)"
+                    title="Delete Product"
+                    [disabled]="isOperationInProgress(p.id)"
+                  >
+                    <span *ngIf="!isOperationInProgress(p.id)" class="d-flex align-items-center">
+                      <i class="fas fa-trash me-1"></i>
+                      Delete
+                    </span>
+                    <span *ngIf="isOperationInProgress(p.id)" class="d-flex align-items-center">
+                      <span class="spinner-border spinner-border-sm me-1" role="status">
+                        <span class="visually-hidden">Processing...</span>
+                      </span>
+                      <span *ngIf="deletingProduct === p.id">Deleting...</span>
+                      <span *ngIf="savingProduct === p.id">Saving...</span>
+                    </span>
+                  </button>
+        </div>
+                <div *ngIf="editId === p.id" class="btn-group" role="group">
+                  <button 
+                    class="btn btn-sm btn-success" 
+                    (click)="saveEdit(p.id)"
+                    title="Save Changes"
+                    [disabled]="isOperationInProgress(p.id)"
+                  >
+                    <span *ngIf="!isOperationInProgress(p.id)" class="d-flex align-items-center">
+                      <i class="fas fa-check me-1"></i>
+                      Save
+                    </span>
+                    <span *ngIf="isOperationInProgress(p.id)" class="d-flex align-items-center">
+                      <span class="spinner-border spinner-border-sm me-1" role="status">
+                        <span class="visually-hidden">Saving...</span>
+                      </span>
+                      Saving...
+                    </span>
+                  </button>
+                  <button 
+                    class="btn btn-sm btn-secondary" 
+                    (click)="cancelEdit()"
+                    title="Cancel"
+                    [disabled]="isOperationInProgress(p.id)"
+                  >
+                    <i class="fas fa-times me-1"></i>
+                    Cancel
+                  </button>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && products.length === 0" class="text-center py-5">
+    <div class="empty-state">
+      <i class="fas fa-box-open text-muted" style="font-size: 4rem;"></i>
+      <h4 class="mt-3 text-muted">No Products Found</h4>
+      <p class="text-muted">Start by adding your first product using the form above.</p>
+    </div>
+  </div>
+</div>
