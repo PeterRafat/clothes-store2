@@ -145,14 +145,15 @@ import { TestimonialsService, Testimonial } from '../../services/testimonials.se
       box-sizing: border-box;
     }
 
-    .testimonial-main {
+    .testimonial-card {
       position: relative;
       margin-bottom: 2rem;
     }
 
     .testimonial-card {
       background: white;
-      border-radius: 20px;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      min-height: 180px; /* make the rectangle a bit larger */
       padding: 1.25rem;
       box-shadow: 0 8px 24px rgba(30, 90, 170, 0.08);
       position: relative;
@@ -301,25 +302,25 @@ import { TestimonialsService, Testimonial } from '../../services/testimonials.se
       transition: transform 0.3s ease;
     }
 
-.carousel-controls {
+  .carousel-controls {
   position: absolute;
   top: 50%;
-  left: 50%;
-  width: 100%;
-  transform: translate(-50%, -50%);
+  left: 0;
+  right: 0;
+  transform: translateY(-50%); /* يجعل الأسهم في المنتصف عموديًا */
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 1rem;
-  z-index: 10;
-  pointer-events: none; /* let buttons handle clicks only */
+  z-index: 20;
+  pointer-events: none; /* يسمح بالنقر فقط على الأزرار */
 }
 
-.control-btn {
-  background: rgba(255, 255, 255, 0.9);
+ .control-btn {
+  background: rgba(255, 255, 255, 0.95);
   border: none;
-  width: 30px;
-  height: 30px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -332,10 +333,14 @@ import { TestimonialsService, Testimonial } from '../../services/testimonials.se
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
-.control-btn:hover {
+   .control-btn:hover {
   background: #ffffff;
   transform: scale(1.1);
 }
+
+    /* Slightly offset buttons so they sit visually at the mid-side edge of the card */
+    .carousel-controls .prev-btn { margin-left: -6px; }
+    .carousel-controls .next-btn { margin-right: -6px; }
 
 
     .carousel-dots {
@@ -401,10 +406,17 @@ import { TestimonialsService, Testimonial } from '../../services/testimonials.se
         font-size: 2rem;
       }
       
-      .testimonial-card {
-        padding: 1.25rem 1rem;
-        margin: 0 0.25rem;
-      }
+      /* ===== تكبير حجم المستطيل (الكارت) قليلاً ===== */
+.testimonial-card {
+  background: white;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  min-height: 220px; /* كان 180px */
+  padding: 1.5rem;
+  box-shadow: 0 8px 24px rgba(30, 90, 170, 0.08);
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+}
       
       .testimonial-message {
         font-size: 1.1rem;
@@ -444,26 +456,53 @@ import { TestimonialsService, Testimonial } from '../../services/testimonials.se
     }
 
     /* Extra small phones: make touch targets larger and text comfortable */
-    @media (max-width: 480px) {
-      .section-title { font-size: 1.6rem; }
-      .section-subtitle { font-size: 0.98rem; }
-      .testimonials-carousel { padding: 0 0.5rem; }
-      .testimonial-card { padding: 1rem; border-radius: 14px; }
-      .status-message { font-size: 0.98rem; margin-top:8px; }
-      .dot { width: 14px; height: 14px; }
-      .control-btn { width: 36px; height: 36px; }
-      .carousel-controls { display: flex; gap: 0.5rem; }
-      .header-social .header-social-icon { width:24px; height:24px; }
-    }
+    /* ===== تحسين المظهر في الموبايل ===== */
+@media (max-width: 768px) {
+  .testimonial-card {
+    min-height: 240px; /* تكبير المستطيل أكثر في الموبايل */
+    padding: 1.5rem 1.25rem;
+  }
+
+  .carousel-controls {
+    top: 40%;
+    transform: translateY(-50%);
+    padding: 0 0.75rem; /* تقليل المسافة الجانبية */
+  }
+
+  .control-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .testimonial-card {
+    min-height: 250px;
+    padding: 1.5rem;
+  }
+
+  .control-btn {
+    width: 48px;
+    height: 48px;
+    font-size: 1.3rem;
+  }
+
+  .carousel-controls {
+    padding: 0 0.5rem;
+  }
+}
+
   `]
 })
+
 export class TestimonialsDisplayComponent implements OnInit {
   testimonials: Testimonial[] = [];
   loading = true;
   currentIndex = 0;
   autoSlideInterval: any;
 
-  constructor(private testimonialsService: TestimonialsService) {}
+  constructor(private testimonialsService: TestimonialsService) { }
 
   async ngOnInit() {
     await this.loadTestimonials();
