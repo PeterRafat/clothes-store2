@@ -138,8 +138,11 @@ import { TestimonialsService, Testimonial } from '../../services/testimonials.se
 
     .testimonials-carousel {
       position: relative;
-      max-width: 450px; /* reduced width for slimmer cards */
+      width: 100%;
+      max-width: 720px; /* allow larger cards on wide screens */
       margin: 0 auto;
+      padding: 0 1rem;
+      box-sizing: border-box;
     }
 
     .testimonial-main {
@@ -150,11 +153,12 @@ import { TestimonialsService, Testimonial } from '../../services/testimonials.se
     .testimonial-card {
       background: white;
       border-radius: 20px;
-      padding: 1.25 rem;
+      padding: 1.25rem;
       box-shadow: 0 8px 24px rgba(30, 90, 170, 0.08);
       position: relative;
       overflow: hidden;
-      transition: all 0.5s ease;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      -webkit-tap-highlight-color: transparent;
     }
 
     .testimonial-card::before {
@@ -173,7 +177,8 @@ import { TestimonialsService, Testimonial } from '../../services/testimonials.se
       border-radius: 16px;
       font-family: 'Helvetica Neue', Arial, sans-serif;
       color: #234156;
-      max-width: 600px; /* constrain card width so it's slightly narrower */
+      width: 100%;
+      max-width: 680px; /* constrain card width */
       margin: 0 auto;
     }
 
@@ -184,8 +189,8 @@ import { TestimonialsService, Testimonial } from '../../services/testimonials.se
     .avatar-wrap { flex-shrink: 0; }
 
     .avatar-image {
-      width: 56px;
-      height: 56px;
+      width: 64px;
+      height: 64px;
       border-radius: 50%;
       object-fit: cover;
       border: 2px solid rgba(102,126,234,0.15);
@@ -193,8 +198,8 @@ import { TestimonialsService, Testimonial } from '../../services/testimonials.se
     }
 
     .avatar-placeholder {
-      width: 56px;
-      height: 56px;
+      width: 64px;
+      height: 64px;
       border-radius: 50%;
       display:flex;align-items:center;justify-content:center;
       background: linear-gradient(135deg,#eaf2ff 0%,#dceeff 100%);
@@ -211,13 +216,15 @@ import { TestimonialsService, Testimonial } from '../../services/testimonials.se
     }
 
     .status-message {
-      font-size:0.95rem;
+      font-size:0.98rem;
       color:#557085;
       margin-top:10px; /* increased so message sits lower */
-      max-width:420px;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
+      max-width:100%;
+      white-space:normal;
+      overflow:visible;
+      text-overflow:unset;
+      word-break:break-word;
+      line-height:1.4;
     }
 
     .header-social .header-social-icon {
@@ -239,16 +246,17 @@ import { TestimonialsService, Testimonial } from '../../services/testimonials.se
       position: relative;
     }
 
-    .avatar-image {
+    /* larger avatar variant used in some contexts; kept smaller for cards */
+    .avatar-image.large {
       width: 80px;
       height: 80px;
       border-radius: 50%;
       object-fit: cover;
       border: 4px solid #667eea;
-      transition: all 0.3s ease;
+      transition: transform 0.25s ease;
     }
 
-    .avatar-placeholder {
+    .avatar-placeholder.large {
       width: 80px;
       height: 80px;
       border-radius: 50%;
@@ -344,7 +352,8 @@ import { TestimonialsService, Testimonial } from '../../services/testimonials.se
       border: none;
       background: #dee2e6;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.2s ease;
+      padding: 0;
     }
 
     .dot.active {
@@ -393,8 +402,8 @@ import { TestimonialsService, Testimonial } from '../../services/testimonials.se
       }
       
       .testimonial-card {
-        padding: 2rem 1.5rem;
-        margin: 0 1rem;
+        padding: 1.25rem 1rem;
+        margin: 0 0.25rem;
       }
       
       .testimonial-message {
@@ -413,8 +422,8 @@ import { TestimonialsService, Testimonial } from '../../services/testimonials.se
       }
       
       .avatar-image, .avatar-placeholder {
-        width: 60px;
-        height: 60px;
+        width: 52px;
+        height: 52px;
       }
       
       .carousel-controls {
@@ -432,6 +441,19 @@ import { TestimonialsService, Testimonial } from '../../services/testimonials.se
         margin-top: 1rem;
         display: inline-block;
       }
+    }
+
+    /* Extra small phones: make touch targets larger and text comfortable */
+    @media (max-width: 480px) {
+      .section-title { font-size: 1.6rem; }
+      .section-subtitle { font-size: 0.98rem; }
+      .testimonials-carousel { padding: 0 0.5rem; }
+      .testimonial-card { padding: 1rem; border-radius: 14px; }
+      .status-message { font-size: 0.98rem; margin-top:8px; }
+      .dot { width: 14px; height: 14px; }
+      .control-btn { width: 36px; height: 36px; }
+      .carousel-controls { display: flex; gap: 0.5rem; }
+      .header-social .header-social-icon { width:24px; height:24px; }
     }
   `]
 })
