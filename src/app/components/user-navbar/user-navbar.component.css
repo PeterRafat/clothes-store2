@@ -1,5 +1,6 @@
 /* Sticky navbar */
 
+
 .sticky-navbar {
   position: fixed; /* Change from sticky to fixed */
   top: 0;
