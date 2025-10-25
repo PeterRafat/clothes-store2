@@ -13,7 +13,49 @@
 .product-meta { display:flex; align-items:center; justify-content:space-between; gap:12px; }
 .small-title { color:#8a8a8a; font-size:0.85rem; }
 .product-name { font-weight:700; font-size:1.05rem; color:#111; margin-top:4px; }
+.product-status { 
+  color:#007bff; 
+  font-size:0.8rem; 
+  font-weight:600; 
+  margin-top:2px; 
+  background: rgba(0,123,255,0.1); 
+  padding:2px 6px; 
+  border-radius:10px; 
+  display:inline-block;
+}
 .right-price { font-weight:800; font-size:1.05rem; color:#111; }
+
+/* Price with discount styling for product cards */
+.price-with-discount {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: right;
+}
+
+.price-with-discount .current-price {
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: #27ae60;
+}
+
+.price-with-discount .original-price {
+  font-size: 0.8rem;
+  color: #6c757d;
+  text-decoration: line-through;
+}
+
+.price-with-discount .discount-text {
+  font-size: 0.7rem;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.price-normal {
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: #111;
+}
 
 .product-card:hover { transform: translateY(-4px); }
 

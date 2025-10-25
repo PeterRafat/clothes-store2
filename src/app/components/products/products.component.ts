@@ -20,7 +20,7 @@ export class ProductsComponent implements OnInit {
   categories: any[] = [];
   subcategories: any[] = [];
   productModel: any = {
-    name: '', price: 0, image_url: '', color: '', quantity: 0, details: '', status: 'متاح', sizes: '', category_id: null
+    name: '', price: 0, priceBeforeOffer: null, image_url: '', gallery_images: [], color: '', quantity: 0, details: '', status: '', sizes: '', category_id: null
   };
   loading = true;
   editId: number | string | null = null;
@@ -28,6 +28,8 @@ export class ProductsComponent implements OnInit {
   savingProduct: number | string | null = null;
   deletingProduct: number | string | null = null;
   uploadingImage = false;
+  uploadingGallery = false;
+  isDragOver = false;
 
   constructor(
     private sb: SupabaseService,
@@ -100,6 +102,132 @@ export class ProductsComponent implements OnInit {
     if (fileInput) fileInput.value = '';
   }
 
+  // Gallery Images Functions
+  onGallerySelected(event: any) {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      this.uploadGalleryImages(files);
+    }
+  }
+
+  async uploadGalleryImages(files: FileList) {
+    this.uploadingGallery = true;
+    const uploadPromises = [];
+    
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        await Swal.fire('Invalid File', `File ${file.name} is not an image`, 'error');
+        continue;
+      }
+
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        await Swal.fire('File Too Large', `File ${file.name} must be less than 5MB`, 'error');
+        continue;
+      }
+      
+      const uploadPromise = this.uploadSingleGalleryImage(file);
+      uploadPromises.push(uploadPromise);
+    }
+    
+    try {
+      const uploadedUrls = await Promise.all(uploadPromises);
+      // Filter out any null/undefined URLs
+      const validUrls = uploadedUrls.filter(url => url && url.trim() !== '');
+      this.productModel.gallery_images = [...this.productModel.gallery_images, ...validUrls];
+      
+      if (validUrls.length > 0) {
+        await Swal.fire('Success', `${validUrls.length} image(s) uploaded successfully`, 'success');
+        // Reset the file input
+        const galleryInput = document.getElementById('galleryUpload') as HTMLInputElement;
+        if (galleryInput) galleryInput.value = '';
+      } else {
+        await Swal.fire('Warning', 'No images were uploaded successfully', 'warning');
+      }
+    } catch (error) {
+      console.error('Error uploading gallery images:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Failed to upload some images. Please try again.';
+      await Swal.fire('Error', errorMessage, 'error');
+    } finally {
+      this.uploadingGallery = false;
+    }
+  }
+
+
+  async uploadSingleGalleryImage(file: File): Promise<string> {
+    try {
+      console.log('Starting upload for file:', file.name, 'Size:', file.size, 'Type:', file.type);
+      
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}.${fileExt}`;
+      const filePath = `products/${fileName}`;
+      
+      console.log('Uploading to path:', filePath);
+
+      // Use the gallery-images bucket directly (already created manually)
+      const bucketName = 'gallery-images';
+      console.log(`Using bucket: ${bucketName}`);
+      
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from(bucketName)
+        .upload(filePath, file);
+
+      if (uploadError) {
+        console.error('Upload error details:', uploadError);
+        throw new Error(`Upload failed: ${uploadError.message}`);
+      }
+
+      console.log('Upload successful, data:', uploadData);
+
+      const { data: urlData } = supabase.storage
+        .from(bucketName)
+        .getPublicUrl(filePath);
+
+      if (!urlData || !urlData.publicUrl) {
+        throw new Error('Failed to get public URL');
+      }
+
+      console.log('Image uploaded successfully:', urlData.publicUrl);
+      return urlData.publicUrl;
+    } catch (error) {
+      console.error('Error uploading single gallery image:', error);
+      throw error;
+    }
+  }
+
+  removeGalleryImage(index: number) {
+    this.productModel.gallery_images.splice(index, 1);
+  }
+
+  onGalleryDrop(event: DragEvent) {
+    event.preventDefault();
+    this.isDragOver = false;
+    const files = event.dataTransfer?.files;
+    if (files && files.length > 0) {
+      this.uploadGalleryImages(files);
+    }
+  }
+
+  onGalleryDragOver(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  onGalleryDragEnter(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragOver = true;
+  }
+
+  onGalleryDragLeave(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragOver = false;
+  }
+
   async addProduct() {
     if (!this.productModel.category_id) {
       await Swal.fire('Error', 'Please select a category', 'error');
@@ -112,7 +240,12 @@ export class ProductsComponent implements OnInit {
     try {
       await this.sb.createProduct(p);
       await Swal.fire('Added', 'Product added', 'success');
-      this.productModel = { name:'', price:0, image_url:'', color:'', quantity:0, details:'', status:'متاح', sizes:'', category_id:null };
+      this.productModel = { name:'', price:0, priceBeforeOffer:null, image_url:'', gallery_images:[], color:'', quantity:0, details:'', status:'متاح', sizes:'', category_id:null, subcategory_id:null };
+      // Reset file inputs
+      const fileInput = document.getElementById('imageUpload') as HTMLInputElement;
+      if (fileInput) fileInput.value = '';
+      const galleryInput = document.getElementById('galleryUpload') as HTMLInputElement;
+      if (galleryInput) galleryInput.value = '';
       await this.loadProducts();
     } catch (e:any) { await Swal.fire('Error', (e.message||e), 'error'); }
   }
@@ -207,7 +340,9 @@ export class ProductsComponent implements OnInit {
     this.productModel = { 
       name: '', 
       price: 0, 
+      priceBeforeOffer: null,
       image_url: '', 
+      gallery_images: [],
       color: '', 
       quantity: 0, 
       details: '', 
@@ -216,9 +351,11 @@ export class ProductsComponent implements OnInit {
       category_id: null,
       subcategory_id: null
     };
-    // Reset file input
+    // Reset file inputs
     const fileInput = document.getElementById('imageUpload') as HTMLInputElement;
     if (fileInput) fileInput.value = '';
+    const galleryInput = document.getElementById('galleryUpload') as HTMLInputElement;
+    if (galleryInput) galleryInput.value = '';
   }
 
   async saveEdit(id: number | string) {

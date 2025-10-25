@@ -51,32 +51,86 @@ export class WinterClothesComponent implements OnInit, AfterViewInit {
       // Get all categories to find Winter category
       const categories = await this.supabaseService.getCategories();
       console.log('All categories:', categories);
+      console.log('Category names:', categories.map(c => c.name));
+      console.log('Category IDs:', categories.map(c => ({ id: c.id, name: c.name })));
       
-      // Find Winter category
-      const winterCategory = categories.find(cat => 
-        cat.name.toLowerCase().includes('winter') || 
-        cat.name.toLowerCase().includes('شتاء')
-      );
+      // First, try to find by ID 2 (as mentioned by user)
+      let winterCategory = categories.find(cat => cat.id === 2);
+      console.log('Category with ID 2:', winterCategory);
+      
+      // If not found by ID, try to find by name variations
+      if (!winterCategory) {
+        winterCategory = categories.find(cat => {
+          const name = cat.name.toLowerCase().trim();
+          console.log('Checking category:', name, 'ID:', cat.id);
+          return (
+            name === 'winter' ||
+            name === 'شتاء' ||
+            name === 'winter clothes' ||
+            name === 'winter wear' ||
+            name === 'ملابس شتوية' ||
+            name === 'winter collection' ||
+            name.includes('winter') ||
+            name.includes('شتاء') ||
+            name.includes('winter clothes') ||
+            name.includes('ملابس شتوية')
+          );
+        });
+      }
+      
+      console.log('Looking for Winter category in:', categories.map(c => c.name));
       
       if (winterCategory) {
         console.log('Found Winter category:', winterCategory);
-        // Filter products that belong to Winter category
+        console.log('All products before filtering:', allProducts);
+        console.log('Products with category_id 2:', allProducts.filter(p => p.category_id === 2));
+        
+        // Filter products that belong to Winter category ONLY
         this.products = allProducts.filter(product => 
           product.category_id === winterCategory.id
         );
         
-        // Get subcategories for Winter category
+        console.log('Filtered winter products:', this.products);
+        
+        // Get subcategories for Winter category ONLY
         this.subcategories = await this.supabaseService.getSubcategoriesByCategory(winterCategory.id);
         console.log('Winter subcategories:', this.subcategories);
+        console.log('Winter products count:', this.products.length);
+        
+        // If no products found but subcategories exist, show a message
+        if (this.products.length === 0 && this.subcategories.length > 0) {
+          console.log('No products found for winter category, but subcategories exist');
+        }
       } else {
-        console.log('Winter category not found, showing all products');
-        this.products = allProducts;
-        this.subcategories = [];
+        console.log('Winter category not found');
+        console.log('Available categories:', categories.map(c => c.name));
+        
+        // If no winter category found, try to find any category that might be winter-related
+        const possibleWinterCategory = categories.find(cat => {
+          const name = cat.name.toLowerCase().trim();
+          return name.includes('clothes') || name.includes('ملابس') || name.includes('winter') || name.includes('شتاء');
+        });
+        
+        if (possibleWinterCategory) {
+          console.log('Found possible winter-related category:', possibleWinterCategory);
+          this.products = allProducts.filter(product => 
+            product.category_id === possibleWinterCategory.id
+          );
+          this.subcategories = await this.supabaseService.getSubcategoriesByCategory(possibleWinterCategory.id);
+        } else {
+          // If no winter category found, show NO products instead of all products
+          this.products = [];
+          this.subcategories = [];
+          console.log('No winter category found - showing empty state');
+        }
       }
       
       this.filteredProducts = [...this.products];
     } catch (error) {
       console.error('Error loading data:', error);
+      this.products = [];
+      this.subcategories = [];
+      this.filteredProducts = [];
     } finally {
       this.loading = false;
     }

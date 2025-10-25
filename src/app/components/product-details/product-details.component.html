@@ -1,63 +1,115 @@
-<div *ngIf="product" class="container product-details-container">
-  <div class="row g-4">
-    <!-- Product Image -->
-    <div class="col-md-5 text-center">
-      <div class="product-image-wrapper">
-        <img [src]="product.image_url || 'https://via.placeholder.com/500'" class="product-image" alt="{{product.name}}">
+<div *ngIf="product" class="product-advertisement" dir="rtl">
+  <div class="product-container">
+    <!-- Left Section - Product Image -->
+    <div class="product-image-section">
+      <div class="image-wrapper">
+        <img [src]="currentImageUrl || product.image_url || 'https://via.placeholder.com/500'" 
+             class="product-image" 
+             alt="{{product.name}}"
+             (click)="openImageModal()"
+             style="cursor: pointer;">
+        
+        <!-- Image Navigation Arrows -->
+        <div class="image-nav" *ngIf="product.gallery_images && product.gallery_images.length > 0">
+          <button class="nav-btn prev-btn" (click)="previousImage()" [disabled]="currentImageIndex === 0">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button class="nav-btn next-btn" (click)="nextImage()" [disabled]="currentImageIndex === product.gallery_images.length">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+        
+        <!-- Image Counter -->
+        <div class="image-counter" *ngIf="product.gallery_images && product.gallery_images.length > 0">
+          <span>{{currentImageIndex + 1}} / {{product.gallery_images.length + 1}}</span>
+        </div>
+      </div>
+      
+      <!-- Gallery Images Thumbnails -->
+      <div class="gallery-section" *ngIf="product.gallery_images && product.gallery_images.length > 0">
+        <h6 class="gallery-title">معرض الصور</h6>
+        <div class="gallery-scroll">
+          <!-- Main Image Thumbnail -->
+          <div class="gallery-item" 
+               [class.active]="currentImageIndex === 0" 
+               (click)="selectMainImage()">
+            <img [src]="product.image_url" alt="Main image" class="gallery-thumbnail">
+            <div class="thumbnail-label">أساسي</div>
+          </div>
+          
+          <!-- Gallery Images Thumbnails -->
+          <div class="gallery-item" 
+               *ngFor="let img of product.gallery_images; let i = index" 
+               [class.active]="currentImageIndex === i + 1"
+               (click)="selectGalleryImage(img, i + 1)">
+            <img [src]="img" alt="Gallery image {{i + 1}}" class="gallery-thumbnail">
+            <div class="thumbnail-label">{{i + 1}}</div>
+          </div>
+        </div>
       </div>
     </div>
     
-    <!-- Product Information -->
-    <div class="col-md-7">
-      <div class="product-info">
-        <h1 class="product-title">{{product.name}}</h1>
-        <div class="price-section">
-          <span class="price">{{product.price}} EGP</span>
+    <!-- Right Section - Product Information Card -->
+    <div class="product-info-section">
+      <div class="info-card">
+        <!-- السعر (Price) -->
+        <div class="info-item">
+          <span class="label">السعر :</span>
+          <div class="price-display">
+            <div *ngIf="product.priceBeforeOffer && product.priceBeforeOffer > product.price" class="price-with-discount">
+              <span class="current-price">{{product.price}} جنية</span>
+              <span class="discount-text">بدلا من</span>
+              <span class="original-price">{{product.priceBeforeOffer}} جنية</span>
+            </div>
+            <div *ngIf="!product.priceBeforeOffer || product.priceBeforeOffer <= product.price" class="price-normal">
+              <span class="current-price">{{product.price}} جنية</span>
+            </div>
+          </div>
         </div>
         
-        <!-- Unified Product Information Table -->
-        <div class="product-table-container">
-          <table class="product-table">
-            <tbody>
-              <tr *ngIf="product.categories?.name">
-                <td class="table-label">Category:</td>
-                <td class="table-value">{{product.categories.name}}</td>
-              </tr>
-              
-              <tr *ngIf="product.color">
-                <td class="table-label">Color:</td>
-                <td class="table-value">{{product.color}}</td>
-              </tr>
-              
-              <tr *ngIf="product.sizes && product.sizes.length">
-                <td class="table-label">Available Sizes:</td>
-                <td class="table-value">
-                  <div class="sizes-container">
-                    <span *ngFor="let size of product.sizes" class="size-badge">{{size}}</span>
-                  </div>
-                </td>
-              </tr>
-              
-              <tr *ngIf="product.quantity">
-                <td class="table-label">Stock:</td>
-                <td class="table-value">
-                  <span [class.low-stock]="product.quantity <= 5">{{product.quantity}} pieces</span>
-                </td>
-              </tr>
-              
-              <tr *ngIf="product.details">
-                <td class="table-label">Product Details:</td>
-                <td class="table-value details-text">{{product.details}}</td>
-              </tr>
-            </tbody>
-          </table>
+        <!-- الصنف (Category) -->
+        <div class="info-item" *ngIf="product.categories?.name">
+          <span class="label">الصنف :</span>
+          <span class="value">{{product.categories.name}}</span>
+        </div>
+        
+        <!-- حالة المنتج (Product Status) -->
+        <div class="info-item" *ngIf="product.status">
+          <span class="label">حالة المنتج :</span>
+          <span class="value status-badge">{{product.status}}</span>
+        </div>
+        
+        <!-- اللون (Color) -->
+        <div class="info-item" *ngIf="product.color">
+          <span class="label">اللون :</span>
+          <span class="value">{{product.color}}</span>
+        </div>
+        
+        <!-- المقاسات (Sizes) -->
+        <div class="info-item" *ngIf="product.sizes && product.sizes.length">
+          <span class="label">المقاسات :</span>
+          <span class="value">
+            <span *ngFor="let size of product.sizes; let last = last">{{size}}<span *ngIf="!last"> و</span></span>
+          </span>
+        </div>
+        
+        <!-- الكمية المتوفرة (Available Quantity) -->
+        <div class="info-item" *ngIf="product.quantity">
+          <span class="label">الكمية المتوفرة :</span>
+          <span class="value" [class.low-stock]="product.quantity <= 5">{{product.quantity}} قطعة</span>
+        </div>
+        
+        <!-- التفاصيل (Details) -->
+        <div class="info-item" *ngIf="product.details">
+          <span class="label">التفاصيل :</span>
+          <span class="value details-text">{{product.details}}</span>
         </div>
         
         <!-- WhatsApp Order Button -->
         <div class="order-section">
           <button class="whatsapp-btn" (click)="openWhatsApp()">
             <i class="fab fa-whatsapp"></i>
-            <span>اطلب الآن عبر واتساب</span>
+            <span>اطلب الان</span>
           </button>
         </div>
       </div>
@@ -79,5 +131,30 @@
     <h4>Product Not Found</h4>
     <p>The product you're looking for doesn't exist or has been removed.</p>
     <a routerLink="/" class="btn btn-primary">Go Back Home</a>
+  </div>
+</div>
+
+<!-- Image Modal -->
+<div class="image-modal" *ngIf="showImageModal" (click)="closeImageModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="modal-close" (click)="closeImageModal()">
+      <i class="fas fa-times"></i>
+    </button>
+    <img [src]="currentImageUrl" alt="{{product.name}}" class="modal-image">
+    
+    <!-- Modal Navigation -->
+    <div class="modal-nav" *ngIf="product.gallery_images && product.gallery_images.length > 0">
+      <button class="modal-nav-btn prev" (click)="previousImage()" [disabled]="currentImageIndex === 0">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <button class="modal-nav-btn next" (click)="nextImage()" [disabled]="currentImageIndex === product.gallery_images.length">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+    
+    <!-- Modal Counter -->
+    <div class="modal-counter" *ngIf="product.gallery_images && product.gallery_images.length > 0">
+      <span>{{currentImageIndex + 1}} / {{product.gallery_images.length + 1}}</span>
+    </div>
   </div>
 </div>

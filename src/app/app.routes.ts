@@ -14,6 +14,8 @@ import { ReturnPolicyComponent } from './components/return-policy/return-policy.
 import { SummerClothesComponent } from './components/summer-clothes/summer-clothes.component';
 import { WinterClothesComponent } from './components/winter-clothes/winter-clothes.component';
 import { AuthGuard } from './guards/auth.guard';
+import { TestimonialsComponent } from './components/testimonials/testimonials.component';
+import { TestimonialsDisplayComponent } from './components/testimonials-display/testimonials-display.component';
 
 export const routes: Routes = [
   // User routes
@@ -34,7 +36,11 @@ export const routes: Routes = [
   { path: 'admin/about-us', component: AdminAboutUsComponent, canActivate: [AuthGuard] },
   { path: 'admin/payment-policy', component: AdminPaymentPolicyComponent, canActivate: [AuthGuard] },
   { path: 'admin/return-policy', component: AdminReturnPolicyComponent, canActivate: [AuthGuard] },
+  { path: 'admin/testimonials', component: TestimonialsComponent, canActivate: [AuthGuard] },
   { path: 'admin', redirectTo: 'admin/dashboard', pathMatch: 'full' },
+  
+  // User testimonials route
+  { path: 'testimonials', component: TestimonialsDisplayComponent },
   
   // Redirect unknown routes to home
   { path: '**', redirectTo: '' }

@@ -75,7 +75,7 @@
           <div class="col-md-3">
             <label class="form-label fw-semibold">
               <i class="fas fa-dollar-sign me-1 text-muted"></i>
-              Price *
+              Price (After Offer) *
             </label>
             <div class="input-group">
               <span class="input-group-text">EGP</span>
@@ -90,6 +90,27 @@
                 required
               />
             </div>
+          </div>
+
+          <!-- Price Before Offer -->
+          <div class="col-md-3">
+            <label class="form-label fw-semibold">
+              <i class="fas fa-tag me-1 text-muted"></i>
+              Price Before Offer
+            </label>
+            <div class="input-group">
+              <span class="input-group-text">EGP</span>
+              <input 
+                type="number" 
+                class="form-control form-control-lg" 
+                placeholder="0.00" 
+                [(ngModel)]="productModel.priceBeforeOffer" 
+                name="pbo"
+                step="0.01"
+                min="0"
+              />
+            </div>
+            <div class="form-text">Original price before discount (optional)</div>
           </div>
 
           <!-- Category -->
@@ -123,11 +144,11 @@
       </select>
     </div>
 
-          <!-- Image Upload -->
+          <!-- Main Image Upload -->
           <div class="col-md-4">
             <label class="form-label fw-semibold">
               <i class="fas fa-image me-1 text-muted"></i>
-              Product Image
+              Main Product Image *
             </label>
             <div class="image-upload-container" [class.uploading]="uploadingImage">
               <input 
@@ -148,10 +169,54 @@
               <div class="upload-hint" *ngIf="!productModel.image_url || uploadingImage">
                 <i class="fas fa-cloud-upload-alt" *ngIf="!uploadingImage"></i>
                 <i class="fas fa-spinner fa-spin" *ngIf="uploadingImage"></i>
-                <span *ngIf="!uploadingImage">Click to upload image or drag & drop</span>
+                <span *ngIf="!uploadingImage">Click to upload main image or drag & drop</span>
                 <span *ngIf="uploadingImage">Processing image...</span>
               </div>
             </div>
+            <div class="form-text">This will be the main image shown in product cards</div>
+          </div>
+
+          <!-- Gallery Images Upload -->
+          <div class="col-12">
+            <label class="form-label fw-semibold">
+              <i class="fas fa-images me-1 text-muted"></i>
+              Gallery Images (Multiple Colors/Sides)
+            </label>
+            <div class="gallery-upload-container" 
+                 [class.uploading]="uploadingGallery"
+                 [class.drag-over]="isDragOver"
+                 (dragover)="onGalleryDragOver($event)"
+                 (dragenter)="onGalleryDragEnter($event)"
+                 (dragleave)="onGalleryDragLeave($event)"
+                 (drop)="onGalleryDrop($event)">
+              <input 
+                type="file" 
+                class="form-control form-control-lg" 
+                (change)="onGallerySelected($event)"
+                accept="image/*"
+                multiple
+                #galleryInput
+                id="galleryUpload"
+                [disabled]="uploadingGallery"
+              />
+              <div class="gallery-preview" *ngIf="productModel.gallery_images.length > 0 && !uploadingGallery">
+                <div class="gallery-item" *ngFor="let img of productModel.gallery_images; let i = index">
+                  <img [src]="img" alt="Gallery preview" class="gallery-preview-image">
+                  <button type="button" class="btn btn-sm btn-danger remove-gallery-image" (click)="removeGalleryImage(i)">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="upload-hint" *ngIf="productModel.gallery_images.length === 0 || uploadingGallery">
+                <i class="fas fa-images" *ngIf="!uploadingGallery && !isDragOver"></i>
+                <i class="fas fa-cloud-upload-alt" *ngIf="!uploadingGallery && isDragOver"></i>
+                <i class="fas fa-spinner fa-spin" *ngIf="uploadingGallery"></i>
+                <span *ngIf="!uploadingGallery && !isDragOver">Click to upload multiple images or drag & drop</span>
+                <span *ngIf="!uploadingGallery && isDragOver">Drop images here to upload</span>
+                <span *ngIf="uploadingGallery">Processing images...</span>
+              </div>
+            </div>
+            <div class="form-text">Upload multiple images showing different colors, angles, or sides</div>
           </div>
 
           <!-- Color -->
@@ -166,6 +231,21 @@
               [(ngModel)]="productModel.color" 
               name="col"
             />
+          </div>
+
+          <!-- Status -->
+          <div class="col-md-4">
+            <label class="form-label fw-semibold">
+              <i class="fas fa-info-circle me-1 text-muted"></i>
+              Product Status
+            </label>
+            <input 
+              class="form-control form-control-lg" 
+              placeholder="e.g., Oversize, New, Sale" 
+              [(ngModel)]="productModel.status" 
+              name="status"
+            />
+            <div class="form-text">Product status or special note</div>
           </div>
 
           <!-- Quantity -->

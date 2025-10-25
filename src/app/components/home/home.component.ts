@@ -2,11 +2,12 @@ import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angula
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { SupabaseService } from '../../services/supabase.service';
+import { TestimonialsDisplayComponent } from '../testimonials-display/testimonials-display.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, TestimonialsDisplayComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })

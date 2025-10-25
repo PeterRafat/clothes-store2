@@ -31,7 +31,7 @@
       <!-- Products Horizontal Scroll -->
       <div *ngIf="!loading">
         <div *ngIf="filteredProducts.length === 0" class="alert alert-info text-center">
-          لا توجد منتجات متاحة حالياً
+          <p>لا توجد منتجات شتوية متاحة حالياً</p>
         </div>
         
         <div *ngIf="filteredProducts.length > 0" class="products-carousel-wrapper">
@@ -60,8 +60,18 @@
                     <div class="left">
                       <div class="small-title">{{ getSubcategoryName(product.subcategory_id) }}</div>
                       <div class="product-name">{{ product.name || 'Product Name' }}</div>
+                      <div class="product-status" *ngIf="product.status">{{ product.status }}</div>
                     </div>
-                    <div class="right-price">{{ product.price || 0 }} EGP</div>
+                    <div class="right-price">
+                      <div *ngIf="product.priceBeforeOffer && product.priceBeforeOffer > product.price" class="price-with-discount">
+                        <div class="current-price">{{ product.price || 0 }} جنيه</div>
+                        <div class="original-price">{{ product.priceBeforeOffer }} جنيه</div>
+                        <div class="discount-text">بدلاً من</div>
+                      </div>
+                      <div *ngIf="!product.priceBeforeOffer || product.priceBeforeOffer <= product.price" class="price-normal">
+                        {{ product.price || 0 }} جنيه
+                      </div>
+                    </div>
                   </div>
                   <div class="text-center">
                     <a [routerLink]="['/product', product.id]" class="btn btn-outline-primary mt-2">View Details</a>

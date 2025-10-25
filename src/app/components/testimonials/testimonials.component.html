@@ -1,0 +1,301 @@
+<!-- Navigation Breadcrumb -->
+<nav class="breadcrumb-nav mb-3">
+  <div class="container-fluid">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a routerLink="/admin/dashboard" class="text-decoration-none">
+          <i class="fas fa-tachometer-alt me-1"></i>
+          Dashboard
+        </a>
+      </li>
+      <li class="breadcrumb-item active">
+        <i class="fas fa-comments me-1"></i>
+        Testimonials
+      </li>
+    </ol>
+  </div>
+</nav>
+
+<!-- Header Section -->
+<div class="page-header mb-4">
+  <div class="d-flex align-items-center justify-content-between">
+    <div>
+      <h2 class="page-title mb-1">
+        <i class="fas fa-comments me-2 text-primary"></i>
+        Testimonials Management
+      </h2>
+      <p class="text-muted mb-0">Manage customer testimonials and reviews</p>
+    </div>
+    <div class="header-stats">
+      <span class="badge bg-primary fs-6">{{testimonials.length}} Testimonials</span>
+    </div>
+  </div>
+</div>
+
+<!-- Add Testimonial Form -->
+<div class="add-testimonial-section mb-5">
+  <div class="card shadow-sm border-0">
+    <div class="card-header bg-gradient-primary text-white">
+      <div class="d-flex align-items-center">
+        <i class="fas fa-plus-circle me-2"></i>
+        <h5 class="mb-0">Add New Testimonial</h5>
+      </div>
+    </div>
+    <div class="card-body p-4">
+  <form (ngSubmit)="addTestimonial()">
+        <div class="row g-3">
+          <!-- Name -->
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">
+              <i class="fas fa-user me-1 text-muted"></i>
+              Customer Name *
+            </label>
+            <input 
+              class="form-control form-control-lg" 
+              placeholder="Enter customer name" 
+              [(ngModel)]="testimonialModel.name" 
+              name="name"
+              required
+            />
+          </div>
+
+          <!-- Rating -->
+          <!-- Rating removed (not present in DB) -->
+
+          <!-- Message -->
+          <div class="col-12">
+            <label class="form-label fw-semibold">
+              <i class="fas fa-comment me-1 text-muted"></i>
+              Testimonial Message *
+            </label>
+            <textarea 
+              class="form-control" 
+              placeholder="Enter customer testimonial message..." 
+              [(ngModel)]="testimonialModel.message" 
+              name="message"
+              rows="4"
+              required
+            ></textarea>
+          </div>
+
+          <!-- Profile Image Upload -->
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">
+              <i class="fas fa-user-circle me-1 text-muted"></i>
+              Profile Image
+            </label>
+              <div class="image-upload-container" [class.uploading]="uploadingProfile">
+              <input 
+                type="file" 
+                class="form-control form-control-lg" 
+                (change)="onProfileImageSelected($event)"
+                accept="image/*"
+                id="profileImage"
+                [disabled]="uploadingProfile"
+              />
+              <div class="image-preview" *ngIf="(testimonialModel.profile_image) && !uploadingProfile">
+                <img [src]="testimonialModel.profile_image" alt="Profile preview" class="preview-image">
+                <button type="button" class="btn btn-sm btn-danger remove-image" (click)="removeProfileImage()">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+              <div class="upload-hint" *ngIf="!testimonialModel.profile_image || uploadingProfile">
+                <i class="fas fa-user-circle" *ngIf="!uploadingProfile"></i>
+                <i class="fas fa-spinner fa-spin" *ngIf="uploadingProfile"></i>
+                <span *ngIf="!uploadingProfile">Click to upload profile image</span>
+                <span *ngIf="uploadingProfile">Uploading...</span>
+              </div>
+            </div>
+            <div class="form-text">Upload a round profile image (max 2MB)</div>
+          </div>
+
+          <!-- Social Media Icon Upload -->
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">
+              <i class="fab fa-facebook me-1 text-muted"></i>
+              Social Media Icon
+            </label>
+            <div class="image-upload-container" [class.uploading]="uploadingSocial">
+              <input 
+                type="file" 
+                class="form-control form-control-lg" 
+                (change)="onSocialIconSelected($event)"
+                accept="image/*"
+                id="socialIcon"
+                [disabled]="uploadingSocial"
+              />
+              <div class="image-preview" *ngIf="testimonialModel.social_icon && !uploadingSocial">
+                <img [src]="testimonialModel.social_icon" alt="Social icon preview" class="preview-image">
+                <button type="button" class="btn btn-sm btn-danger remove-image" (click)="removeSocialIcon()">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+              <div class="upload-hint" *ngIf="!testimonialModel.social_icon || uploadingSocial">
+                <i class="fab fa-facebook" *ngIf="!uploadingSocial"></i>
+                <i class="fas fa-spinner fa-spin" *ngIf="uploadingSocial"></i>
+                <span *ngIf="!uploadingSocial">Click to upload social media icon</span>
+                <span *ngIf="uploadingSocial">Uploading...</span>
+              </div>
+            </div>
+            <div class="form-text">Upload social media platform icon (max 1MB)</div>
+          </div>
+
+          <!-- Active Status -->
+          <div class="col-12">
+            <div class="form-check">
+              <input 
+                class="form-check-input" 
+                type="checkbox" 
+                [(ngModel)]="testimonialModel.is_active" 
+                name="is_active"
+                id="isActive"
+              />
+              <label class="form-check-label fw-semibold" for="isActive">
+                <i class="fas fa-eye me-1 text-muted"></i>
+                Show on website
+              </label>
+            </div>
+          </div>
+
+          <!-- Submit Buttons -->
+          <div class="col-12">
+            <div class="d-flex justify-content-end gap-2">
+              <button 
+                type="button" 
+                class="btn btn-outline-secondary btn-lg px-4"
+                (click)="resetForm()"
+              >
+                <i class="fas fa-undo me-2"></i>
+                Reset
+              </button>
+              <button 
+                type="submit" 
+                class="btn btn-primary btn-lg px-4"
+                [disabled]="saving"
+              >
+                <span *ngIf="!saving" class="d-flex align-items-center">
+                  <i class="fas fa-save me-2"></i>
+                  Add Testimonial
+                </span>
+                <span *ngIf="saving" class="d-flex align-items-center">
+                  <span class="spinner-border spinner-border-sm me-2" role="status">
+                    <span class="visually-hidden">Saving...</span>
+                  </span>
+                  Saving...
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Testimonials List Section -->
+<div class="testimonials-section">
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <div>
+      <h3 class="section-title mb-1">
+        <i class="fas fa-list me-2 text-primary"></i>
+        All Testimonials
+      </h3>
+      <p class="text-muted mb-0">Manage existing testimonials</p>
+    </div>
+    <div class="d-flex gap-2">
+      <button class="btn btn-outline-primary" (click)="loadTestimonials()">
+        <i class="fas fa-sync-alt me-1"></i>
+        Refresh
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-3 text-muted">Loading testimonials...</p>
+  </div>
+
+  <!-- Testimonials Grid -->
+  <div *ngIf="!loading" class="row g-4">
+    <div class="col-md-6 col-lg-4" *ngFor="let testimonial of testimonials">
+      <div class="card testimonial-card h-100">
+        <div class="card-body">
+          <!-- Profile Section -->
+          <div class="d-flex align-items-center mb-3">
+            <div class="profile-image me-3">
+              <img 
+                *ngIf="testimonial.profile_image" 
+                [src]="testimonial.profile_image" 
+                alt="{{testimonial.name}}"
+                class="rounded-circle"
+                style="width: 50px; height: 50px; object-fit: cover;"
+              />
+              <div 
+                *ngIf="!testimonial.profile_image" 
+                class="bg-light rounded-circle d-flex align-items-center justify-content-center"
+                style="width: 50px; height: 50px;"
+              >
+                <i class="fas fa-user text-muted"></i>
+              </div>
+            </div>
+            <div class="flex-grow-1">
+              <h6 class="mb-1">{{testimonial.name}}</h6>
+              <!-- rating removed -->
+            </div>
+            <div class="social-icon" *ngIf="testimonial.social_icon">
+              <img [src]="testimonial.social_icon" alt="Social" style="width: 24px; height: 24px;">
+            </div>
+          </div>
+
+          <!-- Message -->
+          <p class="testimonial-message">{{testimonial.message}}</p>
+
+          <!-- Status Badge -->
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="badge" [ngClass]="testimonial.is_active ? 'bg-success' : 'bg-secondary'">
+              {{testimonial.is_active ? 'Active' : 'Inactive'}}
+            </span>
+            <small class="text-muted">{{testimonial.created_at | date:'short'}}</small>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="card-footer bg-transparent">
+          <div class="btn-group w-100" role="group">
+            <!-- Edit removed: only delete is supported now -->
+            <button 
+              class="btn btn-sm btn-outline-danger" 
+              (click)="deleteTestimonial(testimonial.id!)"
+              title="Delete Testimonial"
+              [disabled]="deleting === testimonial.id"
+            >
+              <span *ngIf="deleting !== testimonial.id" class="d-flex align-items-center">
+                <i class="fas fa-trash me-1"></i>
+                Delete
+              </span>
+              <span *ngIf="deleting === testimonial.id" class="d-flex align-items-center">
+                <span class="spinner-border spinner-border-sm me-1" role="status">
+                  <span class="visually-hidden">Deleting...</span>
+                </span>
+                Deleting...
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && testimonials.length === 0" class="text-center py-5">
+    <div class="empty-state">
+      <i class="fas fa-comments text-muted" style="font-size: 4rem;"></i>
+      <h4 class="mt-3 text-muted">No Testimonials Found</h4>
+      <p class="text-muted">Start by adding your first testimonial using the form above.</p>
+    </div>
+  </div>
+</div>
+

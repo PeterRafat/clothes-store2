@@ -52,31 +52,51 @@ export class SummerClothesComponent implements OnInit, AfterViewInit {
       const categories = await this.supabaseService.getCategories();
       console.log('All categories:', categories);
       
-      // Find Summer category
-      const summerCategory = categories.find(cat => 
-        cat.name.toLowerCase().includes('summer') || 
-        cat.name.toLowerCase().includes('صيف')
-      );
+      // Find Summer category - try multiple variations with more flexible matching
+      const summerCategory = categories.find(cat => {
+        const name = cat.name.toLowerCase().trim();
+        console.log('Checking category:', name);
+        return (
+          name === 'summer' ||
+          name === 'صيف' ||
+          name === 'summer clothes' ||
+          name === 'summer wear' ||
+          name === 'ملابس صيفية' ||
+          name === 'summer collection' ||
+          name.includes('summer') ||
+          name.includes('صيف') ||
+          name.includes('summer clothes') ||
+          name.includes('ملابس صيفية')
+        );
+      });
       
       if (summerCategory) {
         console.log('Found Summer category:', summerCategory);
-        // Filter products that belong to Summer category
+        // Filter products that belong to Summer category ONLY
         this.products = allProducts.filter(product => 
           product.category_id === summerCategory.id
         );
         
-        // Get subcategories for Summer category
+        // Get subcategories for Summer category ONLY
         this.subcategories = await this.supabaseService.getSubcategoriesByCategory(summerCategory.id);
         console.log('Summer subcategories:', this.subcategories);
+        console.log('Summer products count:', this.products.length);
       } else {
-        console.log('Summer category not found, showing all products');
-        this.products = allProducts;
+        console.log('Summer category not found');
+        console.log('Available categories:', categories.map(c => c.name));
+        
+        // If no summer category found, show NO products instead of all products
+        this.products = [];
         this.subcategories = [];
+        console.log('No summer category found - showing empty state');
       }
       
       this.filteredProducts = [...this.products];
     } catch (error) {
       console.error('Error loading data:', error);
+      this.products = [];
+      this.subcategories = [];
+      this.filteredProducts = [];
     } finally {
       this.loading = false;
     }
