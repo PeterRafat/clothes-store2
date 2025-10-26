@@ -68,7 +68,7 @@ export class ProductDetailsComponent implements OnInit {
 
   openWhatsApp() {
     if (!this.product) return;
-    const phone = '201091433891'; 
+    const phone = '201011708963'; 
     // Build a readable message without image URL since WhatsApp doesn't display images from URLs in text
     const parts = [];
     parts.push('طلب منتج');

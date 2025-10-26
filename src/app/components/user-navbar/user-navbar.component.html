@@ -1,40 +1,39 @@
 <nav class="navbar navbar-expand-lg navbar-dark sticky-navbar transparent-navbar">
   <div class="container">
-    <a class="navbar-brand" routerLink="/"> <img src="/logo.jpg" alt="EY store" width="60"></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#userNav" aria-controls="userNav">
+    
+    <!-- Logo + Text -->
+    <div class="nv-logo-txt">
+      <a class="navbar-brand" routerLink="/">
+        <img src="/logo.jpg" alt="EY store" width="60">
+      </a>
+      <p class="brand-name">ZH wear</p>
+    </div>
+
+    <!-- Toggle button for mobile -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#userNav" aria-controls="userNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+
+    <!-- Navbar links -->
     <div class="collapse navbar-collapse" id="userNav">
       <ul class="navbar-nav ms-auto align-items-center">
         <li class="nav-item">
-          <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-            الرئيسية
-          </a>
+          <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">الرئيسية</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/summer-clothes" routerLinkActive="active">
-            ملابس صيفية
-          </a>
+          <a class="nav-link" routerLink="/summer-clothes" routerLinkActive="active">ملابس صيفية</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/winter-clothes" routerLinkActive="active">
-            ملابس شتوية
-          </a>
+          <a class="nav-link" routerLink="/winter-clothes" routerLinkActive="active">ملابس شتوية</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/about-us" routerLinkActive="active">
-            من نحن
-          </a>
+          <a class="nav-link" routerLink="/about-us" routerLinkActive="active">من نحن</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/payment-policy" routerLinkActive="active">
-            سياسة الدفع
-          </a>
+          <a class="nav-link" routerLink="/payment-policy" routerLinkActive="active">سياسة الدفع</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/return-policy" routerLinkActive="active">
-            سياسة الاستبدال والاسترجاع
-          </a>
+          <a class="nav-link" routerLink="/return-policy" routerLinkActive="active">سياسة الاستبدال والاسترجاع</a>
         </li>
       </ul>
     </div>

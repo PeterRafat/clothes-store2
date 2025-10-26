@@ -1,6 +1,5 @@
 /* Sticky navbar */
 
-
 .sticky-navbar {
   position: fixed; /* Change from sticky to fixed */
   top: 0;
@@ -30,6 +29,39 @@
 .navbar-brand img {
   width: 30px !important;
   height: auto;
+}
+
+/* Circular logo with centered overlay text */
+.brand-logo {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.brand-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.brand-text {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 11px;
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  pointer-events: none;
 }
 
 .navbar-nav {
@@ -96,4 +128,35 @@
 
 .navbar-toggler-icon {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2849, 57, 87, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+/* تنظيم الشعار والنص */
+.nv-logo-txt {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.nv-logo-txt .brand-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+/* في الشاشات الصغيرة (الموبايل) */
+@media (max-width: 767.98px) {
+  .nv-logo-txt {
+    flex: 1; /* تاخد مساحة فارغة */
+    justify-content: center; /* تخلي ZH wear في النص */
+  }
+
+  .nv-logo-txt .brand-name {
+    flex-grow: 1;
+    text-align: center;
+    font-size: 1.1rem;
+  }
+
+  .navbar-brand img {
+    width: 35px !important;
+  }
 }
