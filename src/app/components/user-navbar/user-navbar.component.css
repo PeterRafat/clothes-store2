@@ -143,17 +143,36 @@
   margin: 0;
 }
 
+/* Ensure logo image is circular and sized consistently */
+.nv-logo-txt .logo-img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Prevent brand text from overlapping the logo on wide screens */
+.nv-logo-txt .brand-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 220px;
+  margin-left: 0.25rem;
+}
+
 /* في الشاشات الصغيرة (الموبايل) */
 @media (max-width: 767.98px) {
   .nv-logo-txt {
     flex: 1; /* تاخد مساحة فارغة */
-    justify-content: center; /* تخلي ZH wear في النص */
+    justify-content: flex-start; /* keep logo at the left, allow text to center via flex child */
   }
 
   .nv-logo-txt .brand-name {
-    flex-grow: 1;
+    flex: 1 1 auto;
     text-align: center;
     font-size: 1.1rem;
+    max-width: none;
   }
 
   .navbar-brand img {

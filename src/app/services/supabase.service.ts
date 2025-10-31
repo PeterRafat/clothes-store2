@@ -43,6 +43,29 @@ export class SupabaseService {
     if (error) throw error;
     return data;
   }
+  
+  // Light-weight products preview for lists (only required fields)
+  async getProductsPreview(limit: number = 12) {
+    const { data, error } = await supabase
+      .from('products')
+      .select('id, name, image_url, price, subcategory_id')
+      .order('created_at', { ascending: false })
+      .limit(limit);
+    if (error) throw error;
+    return data;
+  }
+
+  // Get a small set of products for a given subcategory (used on home page)
+  async getProductsBySubcategory(subcategoryId: number | string, limit: number = 8) {
+    const { data, error } = await supabase
+      .from('products')
+      .select('id, name, image_url, price, subcategory_id')
+      .eq('subcategory_id', subcategoryId)
+      .order('created_at', { ascending: false })
+      .limit(limit);
+    if (error) throw error;
+    return data;
+  }
   async createCategory(name: string) {
     const { data, error } = await supabase.from('categories').insert({ name }).select().single();
     if (error) throw error;

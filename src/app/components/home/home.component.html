@@ -30,23 +30,23 @@
             </button>
             <div class="products-horizontal-scroll" [id]="'scroll-' + subcategoryName">
               <div class="products-container">
-                <div class="product-item" *ngFor="let product of productsBySubcategory[subcategoryName]">
-                  <div class="product-card">
-                    <div class="image-wrap">
-                      <img [src]="product.image_url || 'https://via.placeholder.com/401x288?text=No+Image'" width="401" height="288" alt="{{product.name}}">
-                    </div>
-                    <div class="product-meta">
-                      <div class="left">
-                        <div class="small-title">{{ subcategoryName }}</div>
-                        <div class="product-name">{{ product.name || 'Product Name' }}</div>
+                  <div class="product-item" *ngFor="let product of productsBySubcategory[subcategoryName]">
+                    <div class="product-card">
+                      <div class="image-wrap">
+                        <img [src]="product.image_url || 'https://via.placeholder.com/401x288?text=No+Image'" width="401" height="288" alt="{{product.name}}" loading="lazy" decoding="async">
                       </div>
-                      <div class="right-price">{{ product.price || 0 }} EGP</div>
-                    </div>
-                    <div class="text-center">
-                      <a [routerLink]="['/product', product.id]" class="btn btn-outline-primary mt-2">View Details</a>
+                      <div class="product-meta">
+                        <div class="left">
+                          <div class="small-title">{{ subcategoryName }}</div>
+                          <div class="product-name">{{ product.name || 'Product Name' }}</div>
+                        </div>
+                        <div class="right-price">{{ product.price || 0 }} EGP</div>
+                      </div>
+                      <div class="text-center">
+                        <a [routerLink]="['/product', product.id]" class="btn btn-outline-primary mt-2">View Details</a>
+                      </div>
                     </div>
                   </div>
-                </div>
               </div>
             </div>
           </div>

@@ -54,7 +54,7 @@
               <div class="product-item" *ngFor="let product of filteredProducts">
                 <div class="product-card">
                   <div class="image-wrap">
-                    <img [src]="product.image_url || 'https://via.placeholder.com/401x288?text=No+Image'" width="401" height="288" alt="{{product.name}}">
+                    <img [src]="product.image_url || 'https://via.placeholder.com/401x288?text=No+Image'" width="401" height="288" alt="{{product.name}}" loading="lazy" decoding="async">
                   </div>
                   <div class="product-meta">
                     <div class="left">

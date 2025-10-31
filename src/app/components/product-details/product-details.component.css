@@ -1,645 +1,616 @@
-/* Product Advertisement - Exact Match to Image Design */
-.product-advertisement {
-  max-width: 1000px;
-  margin: 2rem auto;
-  background: #f8f9fa;
-  border-radius: 15px;
-  overflow: hidden;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-  font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
+  /* ==================== PRODUCT DETAILS STYLES ==================== */
 
-.product-container {
-  display: flex;
-  min-height: 500px;
-}
-
-/* Left Section - Product Image */
-.product-image-section {
-  flex: 1;
-  background: #f8f9fa;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 2rem;
-}
-
-.image-wrapper {
-  width: 100%;
-  max-width: 400px;
-  height: 400px;
-  background: white;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-
-.product-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-}
-
-.product-image:hover {
-  transform: scale(1.02);
-}
-
-/* Gallery Section */
-.gallery-section {
-  margin-top: 1.5rem;
-  padding: 1rem;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.gallery-title {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #2c3e50;
-  margin-bottom: 1rem;
-  text-align: center;
-}
-
-.gallery-scroll {
-  display: flex;
-  gap: 0.5rem;
-  overflow-x: auto;
-  padding: 0.5rem 0;
-  scrollbar-width: thin;
-  scrollbar-color: #c1c1c1 #f1f1f1;
-}
-
-.gallery-scroll::-webkit-scrollbar {
-  height: 6px;
-}
-
-.gallery-scroll::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 3px;
-}
-
-.gallery-scroll::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
-  border-radius: 3px;
-}
-
-.gallery-scroll::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
-}
-
-.gallery-item {
-  flex: 0 0 80px;
-  height: 80px;
-  border-radius: 8px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
-}
-
-.gallery-item:hover {
-  border-color: #007bff;
-  transform: scale(1.05);
-}
-
-.gallery-thumbnail {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-}
-
-.gallery-item:hover .gallery-thumbnail {
-  transform: scale(1.1);
-}
-
-/* Right Section - Product Information */
-.product-info-section {
-  flex: 1;
-  background: #f8f9fa;
-  padding: 2rem;
-  display: flex;
-  align-items: center;
-}
-
-.info-card {
-  width: 100%;
-  background: white;
-  border-radius: 10px;
-  padding: 2rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-/* Info Items */
-.info-item {
-  margin-bottom: 1.2rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.info-item:last-of-type {
-  margin-bottom: 0;
-}
-
-/* Labels */
-.label {
-  font-weight: 600;
-  font-size: 1rem;
-  color: #2c3e50;
-  min-width: 120px;
-  flex-shrink: 0;
-}
-
-/* Values */
-.value {
-  font-weight: 500;
-  font-size: 1rem;
-  color: #495057;
-  flex: 1;
-}
-
-/* Price Display */
-.price-display {
-  flex: 1;
-}
-
-.price-with-discount {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-}
-
-.current-price {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #2c3e50;
-}
-
-.original-price {
-  font-size: 1rem;
-  font-weight: 500;
-  color: #6c757d;
-  text-decoration: line-through;
-}
-
-.discount-text {
-  font-size: 1rem;
-  color: #6c757d;
-  font-weight: 500;
-}
-
-.price-normal .current-price {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #2c3e50;
-}
-
-/* Status Badge */
-.status-badge {
-  background: linear-gradient(135deg, #25d366, #128c7e);
-  color: white;
-  padding: 0.3rem 0.8rem;
-  border-radius: 15px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  display: inline-block;
-  text-align: center;
-  min-width: 70px;
-  transition: all 0.3s ease;
-}
-
-.status-badge:hover {
-  background: linear-gradient(135deg, #128c7e, #25d366);
-  transform: translateY(-1px);
-  box-shadow: 0 3px 8px rgba(37, 211, 102, 0.3);
-}
-
-/* Details Text */
-.details-text {
-  line-height: 1.5;
-  font-size: 0.95rem;
-  color: #495057;
-  white-space: pre-line;
-}
-
-/* Low Stock */
-.low-stock {
-  color: #e74c3c !important;
-  font-weight: 600;
-}
-
-/* WhatsApp Order Button */
-.order-section {
-  text-align: center;
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid #e9ecef;
-}
-
-.whatsapp-btn {
-  background: #000000;
-  color: white;
-  border: none;
-  padding: 0.8rem 1.5rem;
-  font-size: 1rem;
-  font-weight: 600;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  min-width: 150px;
-  justify-content: center;
-  font-family: 'Cairo', sans-serif;
-}
-
-.whatsapp-btn:hover {
-  background: #25d366;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(37, 211, 102, 0.3);
-}
-
-.whatsapp-btn:active {
-  transform: translateY(0);
-}
-
-.whatsapp-btn i {
-  font-size: 1.1rem;
-  color: #25d366;
-  transition: color 0.3s ease;
-}
-
-.whatsapp-btn:hover i {
-  color: white;
-}
-
-/* Loading State */
-.spinner-border {
-  width: 3rem;
-  height: 3rem;
-  color: #007bff;
-}
-
-/* Mobile Responsive */
-@media (max-width: 768px) {
+  /* Main container */
   .product-advertisement {
-    margin: 1rem;
-    border-radius: 10px;
+    max-width: 1100px;
+    margin: 2rem auto;
+    background: #f8f9fa;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 1.5rem;
   }
-  
+
+  /* Layout container for image + info */
   .product-container {
-    flex-direction: column;
-  }
-  
-  .product-image-section {
-    padding: 1.5rem;
-  }
-  
-  .image-wrapper {
-    height: 300px;
-    max-width: 100%;
-  }
-  
-  .product-info-section {
-    padding: 1.5rem;
-  }
-  
-  .info-card {
-    padding: 1.5rem;
-  }
-  
-  .info-item {
-    flex-direction: column;
+    display: flex;
+    flex-wrap: wrap; /* ensures responsiveness */
     align-items: flex-start;
-    gap: 0.3rem;
+    justify-content: space-between;
+    gap: 1.5rem;
   }
-  
-  .label {
-    min-width: auto;
-    font-size: 0.9rem;
+
+  /* ==================== LEFT SIDE: IMAGES ==================== */
+
+  .product-image-section {
+    flex: 1 1 480px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-sizing: border-box;
   }
-  
-  .value {
-    font-size: 0.9rem;
-  }
-  
-  .whatsapp-btn {
+
+  /* main image */
+  .image-wrapper {
+    position: relative;
     width: 100%;
-    padding: 1rem 1.5rem;
-    font-size: 0.95rem;
+    max-width: 520px;
+    aspect-ratio: 4 / 3;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-}
 
-/* RTL Support */
-[dir="rtl"] .info-item {
-  text-align: right;
-}
-
-[dir="rtl"] .order-section {
-  text-align: center;
-}
-
-/* Typography */
-.product-advertisement {
-  font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  line-height: 1.6;
-}
-
-.label {
-  font-family: 'Cairo', sans-serif;
-  letter-spacing: 0.3px;
-}
-
-.value {
-  font-family: 'Cairo', sans-serif;
-}
-
-/* Hover Effects */
-.product-advertisement:hover {
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
-  transform: translateY(-2px);
-}
-
-/* Clean and Modern Design */
-.product-advertisement {
-  background: #f8f9fa;
-  border: 1px solid #e9ecef;
-}
-
-.info-card {
-  background: white;
-  border: 1px solid #e9ecef;
-}
-
-/* Exact spacing to match image */
-.info-item {
-  padding: 0.3rem 0;
-}
-
-.info-item:not(:last-child) {
-  border-bottom: 1px solid #f0f0f0;
-  padding-bottom: 0.8rem;
-  margin-bottom: 0.8rem;
-}
-
-/* Image Navigation */
-.image-nav {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 1rem;
-  pointer-events: none;
-  z-index: 10;
-}
-
-.nav-btn {
-  background: rgba(0, 0, 0, 0.6);
-  color: white;
-  border: none;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  pointer-events: auto;
-  font-size: 1rem;
-}
-
-.nav-btn:hover:not(:disabled) {
-  background: rgba(0, 0, 0, 0.8);
-  transform: scale(1.1);
-}
-
-.nav-btn:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-}
-
-/* Image Counter */
-.image-counter {
-  position: absolute;
-  bottom: 1rem;
-  right: 1rem;
-  background: rgba(0, 0, 0, 0.7);
-  color: white;
-  padding: 0.3rem 0.8rem;
-  border-radius: 15px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  z-index: 10;
-}
-
-/* Gallery Thumbnails Enhancement */
-.gallery-item {
-  position: relative;
-  flex: 0 0 80px;
-  height: 80px;
-  border-radius: 8px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
-}
-
-.gallery-item.active {
-  border-color: #007bff;
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
-}
-
-.gallery-item:hover {
-  border-color: #007bff;
-  transform: scale(1.05);
-}
-
-.thumbnail-label {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.7);
-  color: white;
-  font-size: 0.7rem;
-  font-weight: 600;
-  text-align: center;
-  padding: 0.2rem;
-  transform: translateY(100%);
-  transition: transform 0.3s ease;
-}
-
-.gallery-item:hover .thumbnail-label {
-  transform: translateY(0);
-}
-
-.gallery-item.active .thumbnail-label {
-  transform: translateY(0);
-  background: rgba(0, 123, 255, 0.8);
-}
-
-/* Image Modal */
-.image-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.9);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  cursor: pointer;
-}
-
-.modal-content {
-  position: relative;
-  max-width: 95vw;
-  max-height: 95vh;
-  width: auto;
-  height: auto;
-  cursor: default;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.modal-image {
-  max-width: 90vw;
-  max-height: 90vh;
-  width: auto;
-  height: auto;
-  object-fit: contain;
-  border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-  transition: transform 0.3s ease;
-}
-
-.modal-image:hover {
-  transform: scale(1.02);
-}
-
-.modal-close {
-  position: absolute;
-  top: -40px;
-  right: 0;
-  background: rgba(255, 255, 255, 0.9);
-  color: #333;
-  border: none;
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 1.2rem;
-  transition: all 0.3s ease;
-  z-index: 1001;
-}
-
-.modal-close:hover {
-  background: white;
-  transform: scale(1.1);
-}
-
-.modal-nav {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 2rem;
-  pointer-events: none;
-  z-index: 1001;
-}
-
-.modal-nav-btn {
-  background: rgba(255, 255, 255, 0.9);
-  color: #333;
-  border: none;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  pointer-events: auto;
-  font-size: 1.2rem;
-}
-
-.modal-nav-btn:hover:not(:disabled) {
-  background: white;
-  transform: scale(1.1);
-}
-
-.modal-nav-btn:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-}
-
-.modal-counter {
-  position: absolute;
-  bottom: -40px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(255, 255, 255, 0.9);
-  color: #333;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  z-index: 1001;
-}
-
-/* Mobile Modal Responsive */
-@media (max-width: 768px) {
-  .modal-content {
-    max-width: 98vw;
-    max-height: 98vh;
-    padding: 1rem;
+  .product-image {
+    width: 100%;
+    height: 100%;
+    /* Use contain so the whole image is visible without cropping; keep centered */
+    object-fit: contain;
+    border-radius: 12px;
+    transition: transform 0.3s ease;
   }
-  
-  .modal-close {
-    top: -30px;
-    right: 10px;
-    width: 30px;
-    height: 30px;
-    font-size: 1rem;
+
+  .product-image:hover {
+    transform: scale(1.02);
   }
-  
-  .modal-nav {
-    padding: 0 1rem;
+
+  /* ==================== IMAGE NAVIGATION ==================== */
+
+  .image-nav {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    padding: 0 0.5rem;
+    pointer-events: none;
+    z-index: 15;
   }
-  
-  .modal-nav-btn {
-    width: 40px;
-    height: 40px;
-    font-size: 1rem;
+
+  .nav-btn {
+    background: rgba(0, 0, 0, 0.65);
+    color: #fff;
+    border: none;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: all 0.3s ease;
   }
-  
-  .modal-counter {
-    bottom: -30px;
-    font-size: 0.8rem;
+
+  .nav-btn:hover:not(:disabled) {
+    background: rgba(0, 0, 0, 0.85);
+    transform: scale(1.1);
+  }
+
+  .nav-btn:disabled {
+    opacity: 0.4;
+  }
+
+  /* image counter */
+  .image-counter {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
     padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    z-index: 10;
+  }
+
+  /* ==================== GALLERY SECTION ==================== */
+
+  .gallery-section {
+    margin-top: 1.5rem;
+    width: 100%;
+    background: white;
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+  }
+
+  .gallery-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .gallery-scroll {
+    display: flex;
+    gap: 0.6rem;
+    overflow-x: auto;
+    padding: 0.5rem 0;
+    scrollbar-width: thin;
+    scrollbar-color: #bbb #f1f1f1;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .gallery-scroll::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .gallery-scroll::-webkit-scrollbar-thumb {
+    background: #bbb;
+    border-radius: 3px;
+  }
+
+  .gallery-scroll::-webkit-scrollbar-thumb:hover {
+    background: #888;
+  }
+
+  .gallery-item {
+    flex: 0 0 72px;
+    height: 72px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .gallery-item.active {
+    border-color: #007bff;
+    transform: scale(1.05);
+    box-shadow: 0 6px 18px rgba(0, 123, 255, 0.15);
+  }
+
+  .gallery-thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* thumbnail label */
+  .thumbnail-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-align: center;
+    padding: 0.15rem 0;
+    transform: translateY(100%);
+    transition: transform 0.25s ease;
+  }
+  .gallery-item:hover .thumbnail-label,
+  .gallery-item.active .thumbnail-label {
+    transform: translateY(0);
+  }
+
+  /* ==================== RIGHT SIDE: INFO ==================== */
+
+  .product-info-section {
+    flex: 1 1 420px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    box-sizing: border-box;
+    max-height: 100%;
+  }
+
+  .info-card {
+    width: 100%;
+    max-width: 460px; /* keep card a comfortable width similar to original design */
+    margin: 0 auto; /* center inside the left column */
+    background: white;
+    border-radius: 10px;
+    padding: 1.25rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    overflow: visible;      /* show full content like the original card */
+    max-height: none;       /* unset max-height so card doesn't internally scroll */
+  }
+
+  /* Scrollbar for long info content */
+  .info-card::-webkit-scrollbar {
+    width: 6px;
+  }
+  .info-card::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+  }
+  .info-card::-webkit-scrollbar-thumb:hover {
+    background: #888;
+  }
+
+  .info-item {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid #f1f1f1;
+    padding-bottom: 0.7rem;
+  }
+
+  .label {
+    font-weight: 700;
+    color: #2c3e50;
+    min-width: 110px;
+    font-size: 1rem;
+  }
+
+  .value {
+    flex: 1;
+    color: #495057;
+    font-weight: 500;
+    font-size: 0.98rem;
+  }
+
+  .details-text {
+    line-height: 1.6;
+    white-space: pre-line;
+  }
+
+  /* ========== PRICE & STATUS STYLING ========== */
+  .price-display {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    align-items: flex-start; /* keep price aligned under the label */
+  }
+
+  .price-with-discount,
+  .price-normal {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .current-price {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #111;
+  }
+
+  .discount-text {
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: 600;
+  }
+
+  .original-price {
+    font-size: 0.95rem;
+    color: #999;
+    text-decoration: line-through;
+    font-weight: 600;
+  }
+
+  /* Status badge (green pill) */
+  .status-badge {
+    display: inline-block;
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #18c67b 0%, #0ca06a 100%);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    box-shadow: 0 6px 16px rgba(24,198,123,0.12);
+  }
+
+  .low-stock {
+    color: #e74c3c !important;
+    font-weight: 600;
+  }
+
+  /* WhatsApp Order Button */
+  .order-section {
+    text-align: center;
+    margin-top: 2rem;
+    border-top: 1px solid #e9ecef;
+    padding-top: 1rem;
+  }
+
+  .whatsapp-btn {
+    background: #000;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-width: 150px;
+    justify-content: center;
+  }
+
+  .whatsapp-btn:hover {
+    background: #25d366;
+    transform: translateY(-2px);
+  }
+
+  .whatsapp-btn i {
+    font-size: 1.1rem;
+    color: #25d366;
+    transition: color 0.3s ease;
+  }
+
+  /* Make WhatsApp icon turn black on hover while keeping the button green */
+  .whatsapp-btn:hover i {
+    color: #000 !important;
+  }
+
+  /* ==================== MODAL ==================== */
+
+  .image-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    cursor: zoom-out;
+  }
+
+  .modal-content {
+    position: relative;
+    max-width: 95vw;
+    max-height: 90vh;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+  }
+
+  .modal-image {
+    width: auto;
+    height: auto;
+    /* Ensure the image fits the viewport without being cropped or zoomed.
+       Leave room for modal controls and thumbnails by limiting max-height. */
+    max-width: calc(100vw - 32px);
+    max-height: calc(100vh - 180px);
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+    border-radius: 6px;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1001;
+  }
+
+  .modal-nav {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1rem;
+    pointer-events: none;
+    z-index: 1001;
+  }
+
+  .modal-nav-btn {
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    pointer-events: auto;
+    font-size: 1.2rem;
+  }
+
+  .modal-nav-btn:hover:not(:disabled) {
+    background: white;
+    transform: scale(1.05);
+  }
+
+  .modal-counter {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    padding: 0.4rem 0.9rem;
+    border-radius: 18px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    z-index: 1001;
+  }
+
+  /* Modal thumbnails strip (inside modal) */
+  .modal-thumbnails {
+    position: absolute;
+    bottom: 56px; /* above the counter */
+    left: 12px;
+    right: 12px;
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding: 0.4rem;
+    background: rgba(0,0,0,0.25);
+    border-radius: 8px;
+    z-index: 1001;
+    justify-content: center;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .modal-thumb {
+    flex: 0 0 64px;
+    width: 64px;
+    height: 64px;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 2px solid transparent;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    background: #fff;
+  }
+
+  .modal-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .modal-thumb.active {
+    border-color: #fff;
+    transform: scale(1.03);
+    box-shadow: 0 8px 20px rgba(0,123,255,0.12);
+  }
+
+  /* ==================== RESPONSIVE ==================== */
+
+  @media (max-width: 992px) {
+    .product-advertisement {
+      margin: 1rem;
+      padding: 1rem;
+    }
+
+    .product-container {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .product-image-section,
+    .product-info-section {
+      flex: 1 1 100%;
+      width: 100%;
+      padding: 1.25rem;
+    }
+
+    .image-wrapper {
+      aspect-ratio: 1 / 1;
+      max-width: 100%;
+    }
+
+    .info-card {
+      max-height: unset;
+    }
+
+    .gallery-item {
+      flex: 0 0 65px;
+      height: 65px;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .gallery-item {
+      flex: 0 0 56px;
+      height: 56px;
+    }
+    .image-counter {
+      bottom: 0.6rem;
+      right: 0.6rem;
+      font-size: 0.75rem;
+    }
+    .nav-btn {
+      width: 36px;
+      height: 36px;
+    }
+    .modal-content {
+      max-width: 98vw;
+      max-height: 82vh;
+    }
+    .modal-nav-btn {
+      width: 40px;
+      height: 40px;
+    }
+    .whatsapp-btn {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .gallery-item {
+      flex: 0 0 50px;
+      height: 50px;
+    }
+    .label {
+      font-size: 0.95rem;
+    }
+    .value {
+      font-size: 0.9rem;
+    }
+  }
+
+/* ==================== DESKTOP / LAPTOP: SHOW 3 VISIBLE THUMBNAILS ==================== */
+@media (min-width: 992px) {
+  /* keep left and right side next to each other on wider screens */
+  .product-container {
+    flex-wrap: nowrap; /* prevent wrapping so left/right remain side-by-side */
+    align-items: flex-start;
+  }
+
+  /* Make the thumbnail gallery show 3 items across the available gallery width
+     and allow horizontal scrolling if there are more than 3 thumbnails. */
+  .gallery-scroll {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    gap: 0.6rem; /* keep same visual gap */
+  }
+
+  /* Calculate each thumbnail to take one third of the visible gallery width
+     (subtracting total gaps between them). This guarantees 3 visible thumbnails
+     on the row; extra items will overflow horizontally and can be scrolled to. */
+  .gallery-item {
+    flex: 0 0 calc((100% - (0.6rem * 2)) / 3);
+    aspect-ratio: 1 / 1;
+    height: auto;
+  }
+
+  .gallery-thumbnail {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
   }
 }

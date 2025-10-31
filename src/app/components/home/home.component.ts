@@ -35,28 +35,37 @@ export class HomeComponent implements OnInit, AfterViewInit {
       this.loading = true;
       
       // Get all products with subcategories
-      const allProducts = await this.supabaseService.getProducts();
-      console.log('All products:', allProducts);
+  const allProducts = await this.supabaseService.getProducts();
       
       // Get all subcategories
-      const allSubcategories = await this.supabaseService.getSubcategories();
-      console.log('All subcategories:', allSubcategories);
+  const allSubcategories = await this.supabaseService.getSubcategories();
       
       this.subcategories = allSubcategories;
-      
-      // Group products by subcategory
+
+      // Group products by subcategory. If there are no subcategories in DB
+      // (your case: All subcategories: Array(0)), fall back to grouping by
+      // the product.subcategory_id or a 'General' bucket so the home page
+      // still shows products.
       this.productsBySubcategory = {};
-      allProducts.forEach(product => {
-        if (product.subcategory_id) {
+      if (!this.subcategories || this.subcategories.length === 0) {
+        // No subcategories table rows — group by id or put into 'General'
+        allProducts.forEach(product => {
+          const key = product.subcategory_id ? `Subcategory ${product.subcategory_id}` : 'General';
+          if (!this.productsBySubcategory[key]) this.productsBySubcategory[key] = [];
+          this.productsBySubcategory[key].push(product);
+        });
+      } else {
+        // Normal flow: use subcategory names from the table
+        allProducts.forEach(product => {
           const subcategoryName = this.getSubcategoryName(product.subcategory_id);
           if (!this.productsBySubcategory[subcategoryName]) {
             this.productsBySubcategory[subcategoryName] = [];
           }
           this.productsBySubcategory[subcategoryName].push(product);
-        }
-      });
-      
-      console.log('Products by subcategory:', this.productsBySubcategory);
+        });
+      }
+
+  // products grouped into this.productsBySubcategory
     } catch (error) {
       console.error('Error loading data:', error);
     } finally {
@@ -92,8 +101,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   initializeScrollArrows() {
-    // This method can be used to initialize any scroll-related functionality
-    console.log('Scroll arrows initialized');
+  // This method can be used to initialize any scroll-related functionality
   }
 
   getSubcategoryKeys(): string[] {

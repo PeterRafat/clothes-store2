@@ -94,7 +94,7 @@
                 [disabled]="uploadingProfile"
               />
               <div class="image-preview" *ngIf="(testimonialModel.profile_image) && !uploadingProfile">
-                <img [src]="testimonialModel.profile_image" alt="Profile preview" class="preview-image">
+                <img [src]="testimonialModel.profile_image" alt="Profile preview" class="preview-image" loading="lazy" decoding="async">
                 <button type="button" class="btn btn-sm btn-danger remove-image" (click)="removeProfileImage()">
                   <i class="fas fa-times"></i>
                 </button>
@@ -125,7 +125,7 @@
                 [disabled]="uploadingSocial"
               />
               <div class="image-preview" *ngIf="testimonialModel.social_icon && !uploadingSocial">
-                <img [src]="testimonialModel.social_icon" alt="Social icon preview" class="preview-image">
+                <img [src]="testimonialModel.social_icon" alt="Social icon preview" class="preview-image" loading="lazy" decoding="async">
                 <button type="button" class="btn btn-sm btn-danger remove-image" (click)="removeSocialIcon()">
                   <i class="fas fa-times"></i>
                 </button>
@@ -232,6 +232,7 @@
                 alt="{{testimonial.name}}"
                 class="rounded-circle"
                 style="width: 50px; height: 50px; object-fit: cover;"
+                loading="lazy" decoding="async"
               />
               <div 
                 *ngIf="!testimonial.profile_image" 
@@ -246,7 +247,7 @@
               <!-- rating removed -->
             </div>
             <div class="social-icon" *ngIf="testimonial.social_icon">
-              <img [src]="testimonial.social_icon" alt="Social" style="width: 24px; height: 24px;">
+              <img [src]="testimonial.social_icon" alt="Social" style="width: 24px; height: 24px;" loading="lazy" decoding="async">
             </div>
           </div>
 

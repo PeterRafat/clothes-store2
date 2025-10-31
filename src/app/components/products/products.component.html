@@ -161,7 +161,7 @@
                 [disabled]="uploadingImage"
               />
               <div class="image-preview" *ngIf="productModel.image_url && !uploadingImage">
-                <img [src]="productModel.image_url" alt="Preview" class="preview-image">
+                <img [src]="productModel.image_url" alt="Preview" class="preview-image" loading="lazy" decoding="async">
                 <button type="button" class="btn btn-sm btn-danger remove-image" (click)="removeImage()">
                   <i class="fas fa-times"></i>
                 </button>
@@ -201,7 +201,7 @@
               />
               <div class="gallery-preview" *ngIf="productModel.gallery_images.length > 0 && !uploadingGallery">
                 <div class="gallery-item" *ngFor="let img of productModel.gallery_images; let i = index">
-                  <img [src]="img" alt="Gallery preview" class="gallery-preview-image">
+                  <img [src]="img" alt="Gallery preview" class="gallery-preview-image" loading="lazy" decoding="async">
                   <button type="button" class="btn btn-sm btn-danger remove-gallery-image" (click)="removeGalleryImage(i)">
                     <i class="fas fa-times"></i>
                   </button>
@@ -393,6 +393,7 @@
                       [alt]="p.name"
                       class="rounded"
                       style="width: 40px; height: 40px; object-fit: cover;"
+                      loading="lazy" decoding="async"
                       onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0xNiAxNkgxNlYyNEgyNFYxNkgxNloiIGZpbGw9IiM5Q0EzQUYiLz4KPC9zdmc+Cg=='"
                     />
                     <div 

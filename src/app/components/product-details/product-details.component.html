@@ -1,54 +1,61 @@
+<!-- product-details.component.html -->
 <div *ngIf="product" class="product-advertisement" dir="rtl">
   <div class="product-container">
     <!-- Left Section - Product Image -->
     <div class="product-image-section">
       <div class="image-wrapper">
-        <img [src]="currentImageUrl || product.image_url || 'https://via.placeholder.com/500'" 
-             class="product-image" 
-             alt="{{product.name}}"
-             (click)="openImageModal()"
-             style="cursor: pointer;">
-        
+        <!-- main image uses currentImageUrl -->
+        <img
+          [src]="currentImageUrl || product.image_url || 'https://via.placeholder.com/800x600'"
+          class="product-image"
+          alt="{{product.name}}"
+          loading="lazy"
+          decoding="async"
+          (load)="onMainImageLoad()"
+          (click)="openImageModal()"
+          style="cursor: zoom-in;"
+        />
+
         <!-- Image Navigation Arrows -->
-        <div class="image-nav" *ngIf="product.gallery_images && product.gallery_images.length > 0">
+        <div class="image-nav" *ngIf="(product.gallery_images?.length || 0) + 1 > 1">
           <button class="nav-btn prev-btn" (click)="previousImage()" [disabled]="currentImageIndex === 0">
             <i class="fas fa-chevron-left"></i>
           </button>
-          <button class="nav-btn next-btn" (click)="nextImage()" [disabled]="currentImageIndex === product.gallery_images.length">
+          <button class="nav-btn next-btn" (click)="nextImage()" [disabled]="currentImageIndex === ((product.gallery_images?.length || 0))">
             <i class="fas fa-chevron-right"></i>
           </button>
         </div>
-        
+
         <!-- Image Counter -->
-        <div class="image-counter" *ngIf="product.gallery_images && product.gallery_images.length > 0">
-          <span>{{currentImageIndex + 1}} / {{product.gallery_images.length + 1}}</span>
+        <div class="image-counter" *ngIf="(product.gallery_images?.length || 0) + 1 > 1">
+          <span>{{currentImageIndex + 1}} / {{(product.gallery_images?.length || 0) + 1}}</span>
         </div>
       </div>
-      
+
       <!-- Gallery Images Thumbnails -->
-      <div class="gallery-section" *ngIf="product.gallery_images && product.gallery_images.length > 0">
+      <div class="gallery-section" *ngIf="(product.gallery_images?.length || 0) > 0">
         <h6 class="gallery-title">معرض الصور</h6>
-        <div class="gallery-scroll">
+        <div #galleryScroll class="gallery-scroll" style="touch-action: pan-x; -ms-touch-action: pan-x;">
           <!-- Main Image Thumbnail -->
-          <div class="gallery-item" 
-               [class.active]="currentImageIndex === 0" 
+          <div class="gallery-item"
+               [class.active]="currentImageIndex === 0"
                (click)="selectMainImage()">
-            <img [src]="product.image_url" alt="Main image" class="gallery-thumbnail">
+            <img [src]="product.image_url" alt="Main image" class="gallery-thumbnail" loading="lazy" decoding="async">
             <div class="thumbnail-label">أساسي</div>
           </div>
-          
+
           <!-- Gallery Images Thumbnails -->
-          <div class="gallery-item" 
-               *ngFor="let img of product.gallery_images; let i = index" 
+          <div class="gallery-item"
+               *ngFor="let img of product.gallery_images; let i = index"
                [class.active]="currentImageIndex === i + 1"
                (click)="selectGalleryImage(img, i + 1)">
-            <img [src]="img" alt="Gallery image {{i + 1}}" class="gallery-thumbnail">
+            <img [src]="img" alt="Gallery image {{i + 1}}" class="gallery-thumbnail" loading="lazy" decoding="async">
             <div class="thumbnail-label">{{i + 1}}</div>
           </div>
         </div>
       </div>
     </div>
-    
+
     <!-- Right Section - Product Information Card -->
     <div class="product-info-section">
       <div class="info-card">
@@ -66,25 +73,25 @@
             </div>
           </div>
         </div>
-        
+
         <!-- الصنف (Category) -->
         <div class="info-item" *ngIf="product.categories?.name">
           <span class="label">الصنف :</span>
           <span class="value">{{product.categories.name}}</span>
         </div>
-        
+
         <!-- حالة المنتج (Product Status) -->
         <div class="info-item" *ngIf="product.status">
           <span class="label">حالة المنتج :</span>
           <span class="value status-badge">{{product.status}}</span>
         </div>
-        
+
         <!-- اللون (Color) -->
         <div class="info-item" *ngIf="product.color">
           <span class="label">اللون :</span>
           <span class="value">{{product.color}}</span>
         </div>
-        
+
         <!-- المقاسات (Sizes) -->
         <div class="info-item" *ngIf="product.sizes && product.sizes.length">
           <span class="label">المقاسات :</span>
@@ -92,19 +99,19 @@
             <span *ngFor="let size of product.sizes; let last = last">{{size}}<span *ngIf="!last"> و</span></span>
           </span>
         </div>
-        
+
         <!-- الكمية المتوفرة (Available Quantity) -->
         <div class="info-item" *ngIf="product.quantity">
           <span class="label">الكمية المتوفرة :</span>
           <span class="value" [class.low-stock]="product.quantity <= 5">{{product.quantity}} قطعة</span>
         </div>
-        
+
         <!-- التفاصيل (Details) -->
         <div class="info-item" *ngIf="product.details">
           <span class="label">التفاصيل :</span>
           <span class="value details-text">{{product.details}}</span>
         </div>
-        
+
         <!-- WhatsApp Order Button -->
         <div class="order-section">
           <button class="whatsapp-btn" (click)="openWhatsApp()">
@@ -117,15 +124,12 @@
   </div>
 </div>
 
-<!-- Loading State -->
+<!-- Loading and Not Found states remain as you had them -->
 <div *ngIf="loading" class="container text-center py-5">
-  <div class="spinner-border" role="status">
-    <span class="visually-hidden">Loading...</span>
-  </div>
+  <div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>
   <p class="mt-3">Loading product details...</p>
 </div>
 
-<!-- No Product Found -->
 <div *ngIf="!loading && !product" class="container text-center py-5">
   <div class="alert alert-warning">
     <h4>Product Not Found</h4>
@@ -136,25 +140,31 @@
 
 <!-- Image Modal -->
 <div class="image-modal" *ngIf="showImageModal" (click)="closeImageModal()">
-  <div class="modal-content" (click)="$event.stopPropagation()">
-    <button class="modal-close" (click)="closeImageModal()">
-      <i class="fas fa-times"></i>
-    </button>
-    <img [src]="currentImageUrl" alt="{{product.name}}" class="modal-image">
-    
-    <!-- Modal Navigation -->
-    <div class="modal-nav" *ngIf="product.gallery_images && product.gallery_images.length > 0">
-      <button class="modal-nav-btn prev" (click)="previousImage()" [disabled]="currentImageIndex === 0">
+  <div class="modal-content" (click)="$event.stopPropagation()" #modalContent>
+    <button class="modal-close" (click)="closeImageModal()"><i class="fas fa-times"></i></button>
+    <img [src]="currentImageUrl" alt="{{product?.name}}" class="modal-image" loading="lazy" decoding="async">
+
+    <!-- Modal Thumbnails: show main image + all gallery images so user can see/select all images -->
+    <div class="modal-thumbnails" *ngIf="(product.gallery_images?.length || 0) + 1 > 1" (click)="$event.stopPropagation()">
+      <div class="modal-thumb" [class.active]="currentImageIndex === 0" (click)="selectMainImage()">
+        <img [src]="product.image_url" alt="Main image" loading="lazy" decoding="async">
+      </div>
+      <div class="modal-thumb" *ngFor="let img of product.gallery_images; let i = index" [class.active]="currentImageIndex === i + 1" (click)="selectGalleryImage(img, i + 1)">
+        <img [src]="img" alt="Gallery image {{i + 1}}" loading="lazy" decoding="async">
+      </div>
+    </div>
+
+    <div class="modal-nav" *ngIf="(product.gallery_images?.length || 0) + 1 > 1">
+      <button class="modal-nav-btn prev" (click)="previousImage(); $event.stopPropagation()" [disabled]="currentImageIndex === 0">
         <i class="fas fa-chevron-left"></i>
       </button>
-      <button class="modal-nav-btn next" (click)="nextImage()" [disabled]="currentImageIndex === product.gallery_images.length">
+      <button class="modal-nav-btn next" (click)="nextImage(); $event.stopPropagation()" [disabled]="currentImageIndex === (product.gallery_images?.length || 0)">
         <i class="fas fa-chevron-right"></i>
       </button>
     </div>
-    
-    <!-- Modal Counter -->
-    <div class="modal-counter" *ngIf="product.gallery_images && product.gallery_images.length > 0">
-      <span>{{currentImageIndex + 1}} / {{product.gallery_images.length + 1}}</span>
+
+    <div class="modal-counter" *ngIf="(product.gallery_images?.length || 0) + 1 > 1">
+      <span>{{currentImageIndex + 1}} / {{(product.gallery_images?.length || 0) + 1}}</span>
     </div>
   </div>
 </div>
